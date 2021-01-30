@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/watch/static/css/main.2bc3a081.chunk.css",
-    "main.js": "/watch/static/js/main.f837f2e6.chunk.js",
-    "main.js.map": "/watch/static/js/main.f837f2e6.chunk.js.map",
+    "main.js": "/watch/static/js/main.292b0e9a.chunk.js",
+    "main.js.map": "/watch/static/js/main.292b0e9a.chunk.js.map",
     "reactPlayerDailyMotion.js": "/watch/static/js/reactPlayerDailyMotion.39cc855c.chunk.js",
     "reactPlayerDailyMotion.js.map": "/watch/static/js/reactPlayerDailyMotion.39cc855c.chunk.js.map",
     "reactPlayerFacebook.js": "/watch/static/js/reactPlayerFacebook.d7c6de8b.chunk.js",
@@ -32,7 +32,7 @@
     "static/js/14.c9fab507.chunk.js": "/watch/static/js/14.c9fab507.chunk.js",
     "static/js/14.c9fab507.chunk.js.map": "/watch/static/js/14.c9fab507.chunk.js.map",
     "index.html": "/watch/index.html",
-    "precache-manifest.8fd182c21e72a53048e9247249428ba0.js": "/watch/precache-manifest.8fd182c21e72a53048e9247249428ba0.js",
+    "precache-manifest.a8de6af94588a4e68995d63a4b94f175.js": "/watch/precache-manifest.a8de6af94588a4e68995d63a4b94f175.js",
     "service-worker.js": "/watch/service-worker.js",
     "static/css/main.2bc3a081.chunk.css.map": "/watch/static/css/main.2bc3a081.chunk.css.map",
     "static/js/14.c9fab507.chunk.js.LICENSE.txt": "/watch/static/js/14.c9fab507.chunk.js.LICENSE.txt"
@@ -41,6 +41,6 @@
     "static/js/runtime-main.c57f7854.js",
     "static/js/14.c9fab507.chunk.js",
     "static/css/main.2bc3a081.chunk.css",
-    "static/js/main.f837f2e6.chunk.js"
+    "static/js/main.292b0e9a.chunk.js"
   ]
 }
