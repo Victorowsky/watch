@@ -10,7 +10,7 @@ const PlayerAndChat = () => {
     currentVideoLink,
     socket,
     setVideoQueue,
-    videoQueue,
+    onlineUsers,
   } = useContext(DataContext);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -25,13 +25,13 @@ const PlayerAndChat = () => {
         socket.emit("currentSeconds", player.current.getCurrentTime());
       }, 3000);
     }
-  }, [admin, socket]);
+  }, [admin]);
 
   useEffect(() => {
     if (admin) {
       socket.emit("videoChange", currentVideoLink);
     }
-  }, [currentVideoLink, socket, admin]);
+  }, [currentVideoLink]);
 
   useEffect(() => {
     if (!currentVideoLink) {
@@ -125,6 +125,9 @@ const PlayerAndChat = () => {
           />
         </div>
         <div className="twitchChat">
+          <span style={{ color: "white", position: "absolute" }}>
+            {onlineUsers} USERS ONLINE
+          </span>
           <iframe
             style={{ border: "2px solid #121212" }}
             title="TwitchChat"
