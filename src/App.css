@@ -6,6 +6,9 @@
 ::-webkit-scrollbar {
   display: none;
 }
+body {
+  background-color: black;
+}
 .app {
   display: flex;
   flex-direction: column;
@@ -57,4 +60,10 @@ button {
 button:hover {
   box-shadow: 0 0 10px black;
   color: black;
+}
+
+@media (max-width: 1000px) {
+  .playerAndChat {
+    flex-direction: column;
+  }
 }

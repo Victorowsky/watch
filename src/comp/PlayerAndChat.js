@@ -4,14 +4,20 @@ import ReactPlayer from "react-player/lazy";
 import { DataContext } from "../App";
 
 const PlayerAndChat = () => {
-  const { admin, setCurrentVideoLink, currentVideoLink, socket } = useContext(
-    DataContext
-  );
+  const {
+    admin,
+    setCurrentVideoLink,
+    currentVideoLink,
+    socket,
+    setVideoQueue,
+    videoQueue,
+  } = useContext(DataContext);
 
   const [isPlaying, setIsPlaying] = useState(false);
+
   const player = useRef();
   const maxDelay = 2;
-  const websiteURL = "localhost"; // FOR TWITCH CHAT
+  const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
 
   useEffect(() => {
     if (admin) {
@@ -34,11 +40,22 @@ const PlayerAndChat = () => {
     // eslint-disable-next-line
   }, []);
 
+  // useEffect(() => {
+  //   socket.emit("videoQueue", videoQueue);
+  // }, [socket]);
+
+  // socket.on("videoQueueAnswer", ({ videoQueueServer }) => {
+  //   if (!videoQueue.includes(videoQueueServer)) {
+  //     setVideoQueue(videoQueueServer);
+  //   }
+  // });
+
   socket.on(
     "getAllDataAnswer",
-    ({ currentVideoLinkServer, isPlayingServer }) => {
+    ({ currentVideoLinkServer, isPlayingServer, videoQueueServer }) => {
       setCurrentVideoLink(currentVideoLinkServer);
       setIsPlaying(isPlayingServer);
+      setVideoQueue(videoQueueServer);
     }
   );
 
@@ -83,6 +100,12 @@ const PlayerAndChat = () => {
     }
   });
 
+  const deleteVidoeFromQueue = () => {
+    setVideoQueue((prev) =>
+      prev.filter((array) => !array.includes(currentVideoLink))
+    );
+  };
+
   return (
     <div className="videoAndChat">
       <div className="playerAndChat">
@@ -91,6 +114,7 @@ const PlayerAndChat = () => {
             ref={player}
             onPlay={startSendingTimeToSocket}
             onPause={stopSendingTimeToSocket}
+            onEnded={deleteVidoeFromQueue}
             playing={isPlaying}
             className="react-player"
             url={currentVideoLink}
@@ -105,7 +129,7 @@ const PlayerAndChat = () => {
             style={{ border: "2px solid #121212" }}
             title="TwitchChat"
             id="chat_embed"
-            src={`https://www.twitch.tv/embed/demonzz1/chat?parent=${websiteURL}&darkpopout`}
+            src={`https://www.twitch.tv/embed/demonzz1/chat?darkpopout&parent=${websiteURL}`}
             height="100%"
             width="350"
           ></iframe>

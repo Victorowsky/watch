@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { useState } from "react";
+import ReactPlayer from "react-player/lazy";
 import { DataContext } from "../App";
 const AdminPanel = () => {
-  const { admin, setAdmin, setCurrentVideoLink } = useContext(DataContext);
+  const { admin, setAdmin, setCurrentVideoLink, setVideoQueue } = useContext(
+    DataContext
+  );
   const [editVideoLink, setEditVideoLink] = useState();
-  const [videoQueue, setVideoQueue] = useState();
   return (
     <>
       <button
@@ -29,7 +31,10 @@ const AdminPanel = () => {
             style={{ display: "none" }}
             onClick={(e) => {
               e.preventDefault();
-              setCurrentVideoLink(editVideoLink);
+              if (ReactPlayer.canPlay(editVideoLink)) {
+                setCurrentVideoLink(editVideoLink);
+                setVideoQueue((prev) => [...prev, editVideoLink]);
+              }
               setEditVideoLink("");
             }}
             type="submit"
