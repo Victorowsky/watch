@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useEffect, useState, useRef } from "react";
 import ReactPlayer from "react-player/lazy";
 import { DataContext } from "../App";
+import "./PlayerAndChat.css";
 
 const PlayerAndChat = () => {
   const {
@@ -18,6 +19,8 @@ const PlayerAndChat = () => {
   const player = useRef();
   const maxDelay = 2;
   const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
+  // const websiteURL = "localhost"; // FOR TWITCH CHAT
+  const streamer = "demonzz1";
 
   useEffect(() => {
     if (admin) {
@@ -125,14 +128,14 @@ const PlayerAndChat = () => {
           />
         </div>
         <div className="twitchChat">
-          <span style={{ color: "white", position: "absolute" }}>
-            {onlineUsers} USERS ONLINE
+          <span className="onlineUsers">
+            {onlineUsers ? `${onlineUsers} ONLINE` : "CONNECTING"}
           </span>
           <iframe
             style={{ border: "2px solid #121212" }}
             title="TwitchChat"
             id="chat_embed"
-            src={`https://www.twitch.tv/embed/demonzz1/chat?darkpopout&parent=${websiteURL}`}
+            src={`https://www.twitch.tv/embed/${streamer}/chat?darkpopout&parent=${websiteURL}`}
             height="100%"
             width="350"
           ></iframe>

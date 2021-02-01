@@ -17,7 +17,7 @@ const App = () => {
   const [admin, setAdmin] = useState(false);
   const [currentVideoLink, setCurrentVideoLink] = useState("");
   const [videoQueue, setVideoQueue] = useState([]);
-  const [onlineUsers, setOnlineUsers] = useState(0);
+  const [onlineUsers, setOnlineUsers] = useState(null);
 
   useEffect(() => {}, []);
 

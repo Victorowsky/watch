@@ -1,0 +1,24 @@
+.playerAndChat {
+  display: flex;
+  height: 100%;
+  background-color: #121212;
+}
+.videoAndChat {
+  height: 100vh;
+}
+.player-wrapper {
+  height: 100%;
+  width: 100%;
+  min-height: 225px;
+}
+
+.react-player {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.onlineUsers {
+  color: grey;
+  position: absolute;
+  padding: 6px 10px;
+}

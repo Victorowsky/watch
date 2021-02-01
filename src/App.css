@@ -17,26 +17,6 @@ body {
   width: 100%;
   height: 100vh;
 }
-.playerAndChat {
-  display: flex;
-  height: 100%;
-  background-color: #121212;
-}
-.videoAndChat {
-  height: 100vh;
-}
-
-.player-wrapper {
-  height: 100%;
-  width: 100%;
-  min-height: 225px;
-}
-
-.react-player {
-  position: relative;
-  top: 0;
-  left: 0;
-}
 
 input {
   padding: 15px 20px;
@@ -62,7 +42,10 @@ button:hover {
   color: black;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 400px) {
+  .app {
+    height: 1000px;
+  }
   .playerAndChat {
     flex-direction: column;
   }

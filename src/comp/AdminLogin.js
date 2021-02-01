@@ -4,15 +4,26 @@ import { DataContext } from "../App";
 const AdminLogin = () => {
   const { socket, admin, setAdmin, history } = useContext(DataContext);
   const [password, setPassword] = useState("");
+  const [isAlert, setIsAlert] = useState(0);
   const handleLogin = () => {
     socket.emit("handleLogin", { password });
   };
-  socket.on("handleLoginAnswer", ({ success }) => {
+  socket.on("handleLoginAnswer", ({ success, message }) => {
     if (success) {
       if (!admin) {
         setAdmin(true);
       }
       history.push("/");
+    } else {
+      setIsAlert((prev) => {
+        prev++;
+        if (prev === 1) {
+          alert(message);
+        }
+        setTimeout(() => {
+          setIsAlert(0);
+        }, 100);
+      });
     }
   });
   return (
