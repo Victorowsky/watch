@@ -11,15 +11,16 @@ const PlayerAndChat = () => {
     currentVideoLink,
     socket,
     onlineUsers,
+    twitchStreamerChat,
+    setTwitchStreamerChat,
   } = useContext(DataContext);
 
   const [isPlaying, setIsPlaying] = useState(false);
 
   const player = useRef();
   const maxDelay = 2;
-  // const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
-  const websiteURL = "localhost"; // FOR TWITCH CHAT
-  const streamer = "demonzz1";
+  const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
+  // const websiteURL = "localhost"; // FOR TWITCH CHAT
 
   // ADMIN EMITS HIS DATA TO SHARE WITH OTHERS
   useEffect(() => {
@@ -28,6 +29,7 @@ const PlayerAndChat = () => {
       interval = setInterval(() => {
         socket.emit("adminData", {
           currentSeconds: player.current.getCurrentTime(),
+          currentChat: twitchStreamerChat,
         });
       }, 3000);
     }
@@ -52,20 +54,30 @@ const PlayerAndChat = () => {
 
   socket.on(
     "getAllDataAnswer",
-    ({ currentVideoLinkServer, isPlayingServer }) => {
+    ({ currentVideoLinkServer, isPlayingServer, twitchStreamerChatServer }) => {
       setCurrentVideoLink(currentVideoLinkServer);
       setIsPlaying(isPlayingServer);
+      setTwitchStreamerChat(twitchStreamerChatServer);
     }
   );
 
-  socket.on("currentSecondsAnswer", (seconds) => {
+  socket.on("adminDataAnswer", ({ currentSeconds }) => {
     if (player.current) {
       const currentTime = player.current.getCurrentTime();
       if (
-        !(currentTime < seconds + maxDelay && currentTime > seconds - maxDelay)
+        !(
+          currentTime < currentSeconds + maxDelay &&
+          currentTime > currentSeconds - maxDelay
+        )
       ) {
-        player.current.seekTo(seconds, "seconds");
+        player.current.seekTo(currentSeconds, "seconds");
       }
+    }
+  });
+
+  socket.on("changeStreamersChatAnswer", (twitchStreamerChatServer) => {
+    if (!admin) {
+      setTwitchStreamerChat(twitchStreamerChatServer);
     }
   });
 
@@ -125,7 +137,7 @@ const PlayerAndChat = () => {
             style={{ border: "2px solid #121212" }}
             title="TwitchChat"
             id="chat_embed"
-            src={`https://www.twitch.tv/embed/${streamer}/chat?darkpopout&parent=${websiteURL}`}
+            src={`https://www.twitch.tv/embed/${twitchStreamerChat}/chat?darkpopout&parent=${websiteURL}`}
             height="100%"
             width="100%"
           ></iframe>

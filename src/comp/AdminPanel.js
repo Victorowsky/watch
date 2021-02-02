@@ -4,10 +4,16 @@ import ReactPlayer from "react-player/lazy";
 import Button from "./Button";
 import { DataContext } from "../App";
 import "./AdminPanel.css";
+import { useEffect } from "react";
 const AdminPanel = () => {
-  const { admin, setAdmin, setCurrentVideoLink, socket } = useContext(
-    DataContext
-  );
+  const {
+    admin,
+    setAdmin,
+    setCurrentVideoLink,
+    socket,
+    setTwitchStreamerChat,
+    twitchStreamerChat,
+  } = useContext(DataContext);
   const [editVideoLink, setEditVideoLink] = useState();
 
   const handleAddVideo = () => {
@@ -26,11 +32,19 @@ const AdminPanel = () => {
       socket.emit("adminLeave");
     }
   };
+
+  const handleChangeStreamersChat = () => {
+    const newStreamerChat = prompt("Insert new twitch user:");
+    setTwitchStreamerChat(newStreamerChat);
+    socket.emit("changeStreamersChat", newStreamerChat);
+  };
+
   return (
     <>
       <br />
       {admin && (
         // ADDING VIDEO PANEL
+
         <form>
           <input
             type="text"
@@ -41,6 +55,7 @@ const AdminPanel = () => {
               }
             }}
           />
+
           <button
             style={{ display: "none" }}
             onClick={(e) => {
@@ -51,7 +66,13 @@ const AdminPanel = () => {
           ></button>
         </form>
       )}
-      <Button text={"ADMIN"} onClick={handleLeaveAdmin} />
+      <div className="adminButtonsDiv">
+        <Button
+          text={"CHANGE STREAMER'S CHAT"}
+          onClick={handleChangeStreamersChat}
+        />
+        <Button text={"LEAVE ADMIN"} onClick={handleLeaveAdmin} />
+      </div>
     </>
   );
 };

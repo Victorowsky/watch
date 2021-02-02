@@ -28,20 +28,6 @@ input {
 input:focus {
   border: 2px solid blue;
 }
-.adminButton {
-  padding: 6px 10px;
-  background-color: #fff;
-  outline: none;
-  border: 2px solid black;
-  border-radius: 5px;
-  margin: 2px 0;
-  transition: 0.3s;
-}
-.adminButton:hover {
-  box-shadow: 0 0 10px white;
-  color: black;
-  background-color: #911b0b;
-}
 .twitchChat {
   width: 400px;
 }
