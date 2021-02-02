@@ -10,7 +10,6 @@ const PlayerAndChat = () => {
     setCurrentVideoLink,
     currentVideoLink,
     socket,
-    setVideoQueue,
     onlineUsers,
   } = useContext(DataContext);
 
@@ -18,47 +17,44 @@ const PlayerAndChat = () => {
 
   const player = useRef();
   const maxDelay = 2;
-  const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
-  // const websiteURL = "localhost"; // FOR TWITCH CHAT
+  // const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
+  const websiteURL = "localhost"; // FOR TWITCH CHAT
   const streamer = "demonzz1";
 
+  // ADMIN EMITS HIS DATA TO SHARE WITH OTHERS
   useEffect(() => {
+    let interval;
     if (admin) {
-      setInterval(() => {
-        socket.emit("currentSeconds", player.current.getCurrentTime());
+      interval = setInterval(() => {
+        socket.emit("adminData", {
+          currentSeconds: player.current.getCurrentTime(),
+        });
       }, 3000);
     }
-  }, [admin]);
+    return () => {
+      clearInterval(interval);
+      console.log("cleared interval");
+    };
+  }, [admin, socket]);
 
+  // CHANGE VIDEO IF
   useEffect(() => {
     if (admin) {
       socket.emit("videoChange", currentVideoLink);
     }
-  }, [currentVideoLink]);
+  }, [currentVideoLink, admin, socket]);
 
   useEffect(() => {
     if (!currentVideoLink) {
       socket.emit("getAllData");
     }
-    // eslint-disable-next-line
-  }, []);
-
-  // useEffect(() => {
-  //   socket.emit("videoQueue", videoQueue);
-  // }, [socket]);
-
-  // socket.on("videoQueueAnswer", ({ videoQueueServer }) => {
-  //   if (!videoQueue.includes(videoQueueServer)) {
-  //     setVideoQueue(videoQueueServer);
-  //   }
-  // });
+  }, [socket, currentVideoLink]);
 
   socket.on(
     "getAllDataAnswer",
-    ({ currentVideoLinkServer, isPlayingServer, videoQueueServer }) => {
+    ({ currentVideoLinkServer, isPlayingServer }) => {
       setCurrentVideoLink(currentVideoLinkServer);
       setIsPlaying(isPlayingServer);
-      setVideoQueue(videoQueueServer);
     }
   );
 
@@ -74,6 +70,7 @@ const PlayerAndChat = () => {
   });
 
   socket.on("videoChangeAnswer", (currentVideoLink) => {
+    // TURNED OFF FOR ADMIN TO NOT LOOP PAGE
     if (!admin) {
       setCurrentVideoLink(currentVideoLink);
     }
@@ -103,12 +100,6 @@ const PlayerAndChat = () => {
     }
   });
 
-  const deleteVidoeFromQueue = () => {
-    setVideoQueue((prev) =>
-      prev.filter((array) => !array.includes(currentVideoLink))
-    );
-  };
-
   return (
     <div className="videoAndChat">
       <div className="playerAndChat">
@@ -117,7 +108,6 @@ const PlayerAndChat = () => {
             ref={player}
             onPlay={startSendingTimeToSocket}
             onPause={stopSendingTimeToSocket}
-            onEnded={deleteVidoeFromQueue}
             playing={isPlaying}
             className="react-player"
             url={currentVideoLink}
@@ -137,7 +127,7 @@ const PlayerAndChat = () => {
             id="chat_embed"
             src={`https://www.twitch.tv/embed/${streamer}/chat?darkpopout&parent=${websiteURL}`}
             height="100%"
-            width="350"
+            width="100%"
           ></iframe>
         </div>
       </div>

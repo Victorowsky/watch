@@ -28,7 +28,7 @@ input {
 input:focus {
   border: 2px solid blue;
 }
-button {
+.adminButton {
   padding: 6px 10px;
   background-color: #fff;
   outline: none;
@@ -37,16 +37,28 @@ button {
   margin: 2px 0;
   transition: 0.3s;
 }
-button:hover {
-  box-shadow: 0 0 10px black;
+.adminButton:hover {
+  box-shadow: 0 0 10px white;
   color: black;
+  background-color: #911b0b;
+}
+.twitchChat {
+  width: 400px;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 720px) {
   .app {
-    height: 1000px;
+    height: 100vh;
+  }
+  .videoAndChat {
+    height: fit-content;
   }
   .playerAndChat {
     flex-direction: column;
+    height: fit-content;
+  }
+  .twitchChat {
+    height: 200%;
+    width: 100%;
   }
 }

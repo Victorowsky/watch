@@ -1,20 +1,34 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import ReactPlayer from "react-player/lazy";
+import Button from "./Button";
 import { DataContext } from "../App";
+import "./AdminPanel.css";
 const AdminPanel = () => {
-  const { admin, setAdmin, setCurrentVideoLink, setVideoQueue } = useContext(
+  const { admin, setAdmin, setCurrentVideoLink, socket } = useContext(
     DataContext
   );
   const [editVideoLink, setEditVideoLink] = useState();
+
+  const handleAddVideo = () => {
+    if (ReactPlayer.canPlay(editVideoLink)) {
+      setCurrentVideoLink(editVideoLink);
+    }
+    setEditVideoLink("");
+  };
+
+  const handleLeaveAdmin = () => {
+    const confirmAnswer = window.confirm(
+      "Are you sure you don't want to be admin?"
+    );
+    if (confirmAnswer) {
+      setAdmin((prev) => !prev);
+      socket.emit("adminLeave");
+    }
+  };
   return (
     <>
-      <button
-        onClick={() => setAdmin((prev) => !prev)}
-        style={admin ? { backgroundColor: "#06d6a0" } : {}}
-      >
-        ADMIN
-      </button>
+      <br />
       {admin && (
         // ADDING VIDEO PANEL
         <form>
@@ -31,16 +45,13 @@ const AdminPanel = () => {
             style={{ display: "none" }}
             onClick={(e) => {
               e.preventDefault();
-              if (ReactPlayer.canPlay(editVideoLink)) {
-                setCurrentVideoLink(editVideoLink);
-                setVideoQueue((prev) => [...prev, editVideoLink]);
-              }
-              setEditVideoLink("");
+              handleAddVideo();
             }}
             type="submit"
           ></button>
         </form>
       )}
+      <Button text={"ADMIN"} onClick={handleLeaveAdmin} />
     </>
   );
 };

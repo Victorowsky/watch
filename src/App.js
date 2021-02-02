@@ -6,6 +6,7 @@ import AdminPanel from "./comp/AdminPanel";
 import AdminLogin from "./comp/AdminLogin";
 import PlayerAndChat from "./comp/PlayerAndChat";
 import { useEffect } from "react";
+// import Queue from "./comp/Queue";
 
 export const DataContext = React.createContext();
 
@@ -23,6 +24,10 @@ const App = () => {
 
   socket.on("onlineUsers", (onlineUsers) => {
     setOnlineUsers(onlineUsers);
+  });
+
+  socket.on("videoQueueAnswer", ({ videoQueueServer }) => {
+    setVideoQueue(videoQueueServer);
   });
   return (
     <>
@@ -43,11 +48,11 @@ const App = () => {
           <Switch>
             <Route path="/" exact>
               <PlayerAndChat />
-              {admin && (
-                <div className="bottomDiv">
-                  <AdminPanel />
-                </div>
-              )}
+
+              <div className="bottomDiv">
+                {admin && <AdminPanel />}
+                {/* <Queue /> */}
+              </div>
             </Route>
             <Route path="/admin">
               <AdminLogin />
