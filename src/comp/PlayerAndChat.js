@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from "react";
 import ReactPlayer from "react-player/lazy";
 import { DataContext } from "../App";
 import "./PlayerAndChat.css";
-import { useParams } from "react-router-dom";
 
 const PlayerAndChat = () => {
   const {

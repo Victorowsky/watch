@@ -7,9 +7,9 @@ import AdminLogin from "./comp/AdminLogin";
 import PlayerAndChat from "./comp/PlayerAndChat";
 export const DataContext = React.createContext();
 
-const socket = io(`http://localhost:3001/`);
-// const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
-// const socket = io(serverURL);
+// const socket = io(`http://localhost:3001/`);
+const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
+const socket = io(serverURL);
 const App = () => {
   const history = useHistory();
   const [admin, setAdmin] = useState(false);

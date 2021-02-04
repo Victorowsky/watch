@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-import ReactPlayer from "react-player/lazy";
+
 import Button from "./Button";
 import { DataContext } from "../App";
 import "./AdminPanel.css";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
+
 const AdminPanel = () => {
   const {
     admin,
