@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import ReactPlayer from "react-player/lazy";
 import { DataContext } from "../App";
 import "./PlayerAndChat.css";
+import { useParams } from "react-router-dom";
 
 const PlayerAndChat = () => {
   const {
@@ -19,8 +20,8 @@ const PlayerAndChat = () => {
 
   const player = useRef();
   const maxDelay = 2;
-  const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
-  // const websiteURL = "localhost"; // FOR TWITCH CHAT
+  // const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
+  const websiteURL = "localhost"; // FOR TWITCH CHAT
 
   // ADMIN EMITS HIS DATA TO SHARE WITH OTHERS
   useEffect(() => {
@@ -62,15 +63,30 @@ const PlayerAndChat = () => {
   );
 
   socket.on("adminDataAnswer", ({ currentSeconds }) => {
+    if (admin) return false; // ADMIN SHOULDNT GET HIS OWN DATA
     if (player.current) {
+      const videoDuration = player.current.getDuration();
       const currentTime = player.current.getCurrentTime();
-      if (
-        !(
-          currentTime < currentSeconds + maxDelay &&
-          currentTime > currentSeconds - maxDelay
-        )
-      ) {
-        player.current.seekTo(currentSeconds, "seconds");
+      // FOR LIVESTREAMS
+      if (videoDuration > currentSeconds) {
+        if (
+          !(
+            currentTime < currentSeconds + maxDelay &&
+            currentTime > currentSeconds - maxDelay
+          )
+        ) {
+          player.current.seekTo(currentSeconds, "seconds");
+        }
+      } else {
+        // HERE IS LIVESTREAM VERSION
+        if (
+          !(
+            currentTime < videoDuration + maxDelay &&
+            currentTime > videoDuration - maxDelay
+          )
+        ) {
+          player.current.seekTo(videoDuration, "seconds");
+        }
       }
     }
   });
@@ -103,7 +119,9 @@ const PlayerAndChat = () => {
   };
 
   socket.on("isPlayingSocketAnswer", (isPlaying) => {
-    setIsPlaying(isPlaying);
+    if (!admin) {
+      setIsPlaying(isPlaying);
+    }
   });
 
   socket.on("currentSeconds", ({ time }) => {

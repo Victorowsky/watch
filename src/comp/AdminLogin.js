@@ -8,6 +8,7 @@ const AdminLogin = () => {
   const handleLogin = () => {
     socket.emit("handleLogin", { password });
   };
+
   socket.on("handleLoginAnswer", ({ success, message }) => {
     if (success) {
       if (!admin) {

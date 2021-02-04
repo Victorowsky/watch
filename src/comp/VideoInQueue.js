@@ -4,13 +4,6 @@ import "./VideoInQueue.css";
 const VideoInQueue = ({ videoURL, index }) => {
   const [data, setData] = useState();
 
-  useEffect(() => {
-    fetch(`https://noembed.com/embed?url=${videoURL}`)
-      .then((res) => res.json())
-      .then((res) => {
-        setData(res);
-      });
-  }, [videoURL]);
   return (
     <>
       {data && (

@@ -5,6 +5,7 @@ import Button from "./Button";
 import { DataContext } from "../App";
 import "./AdminPanel.css";
 import { useEffect } from "react";
+import Cookies from "js-cookie";
 const AdminPanel = () => {
   const {
     admin,
@@ -12,14 +13,13 @@ const AdminPanel = () => {
     setCurrentVideoLink,
     socket,
     setTwitchStreamerChat,
-    twitchStreamerChat,
   } = useContext(DataContext);
   const [editVideoLink, setEditVideoLink] = useState();
 
   const handleAddVideo = () => {
-    if (ReactPlayer.canPlay(editVideoLink)) {
-      setCurrentVideoLink(editVideoLink);
-    }
+    // if (ReactPlayer.canPlay(editVideoLink)) {
+    setCurrentVideoLink(editVideoLink);
+    // }
     setEditVideoLink("");
   };
 
@@ -35,8 +35,10 @@ const AdminPanel = () => {
 
   const handleChangeStreamersChat = () => {
     const newStreamerChat = prompt("Insert new twitch user:");
-    setTwitchStreamerChat(newStreamerChat);
-    socket.emit("changeStreamersChat", newStreamerChat);
+    if (newStreamerChat) {
+      setTwitchStreamerChat(newStreamerChat);
+      socket.emit("changeStreamersChat", newStreamerChat);
+    }
   };
 
   return (
@@ -49,6 +51,7 @@ const AdminPanel = () => {
           <input
             type="text"
             value={editVideoLink}
+            placeholder={"VIDEO URL"}
             onChange={(e) => {
               if (admin) {
                 setEditVideoLink(e.target.value);
