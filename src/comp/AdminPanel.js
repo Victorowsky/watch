@@ -16,9 +16,7 @@ const AdminPanel = () => {
   const [editVideoLink, setEditVideoLink] = useState();
 
   const handleAddVideo = () => {
-    // if (ReactPlayer.canPlay(editVideoLink)) {
     setCurrentVideoLink(editVideoLink);
-    // }
     setEditVideoLink("");
   };
 

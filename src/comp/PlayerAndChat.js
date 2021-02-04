@@ -19,8 +19,8 @@ const PlayerAndChat = () => {
 
   const player = useRef();
   const maxDelay = 2;
-  // const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
-  const websiteURL = "localhost"; // FOR TWITCH CHAT
+  const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
+  // const websiteURL = "localhost"; // FOR TWITCH CHAT
 
   // ADMIN EMITS HIS DATA TO SHARE WITH OTHERS
   useEffect(() => {
@@ -29,7 +29,6 @@ const PlayerAndChat = () => {
       interval = setInterval(() => {
         socket.emit("adminData", {
           currentSeconds: player.current.getCurrentTime(),
-          currentChat: twitchStreamerChat,
         });
       }, 3000);
     }
@@ -39,7 +38,7 @@ const PlayerAndChat = () => {
     };
   }, [admin, socket]);
 
-  // CHANGE VIDEO IF
+  // EMIT CHANGE VIDEO IF ADMIN CHANGES
   useEffect(() => {
     if (admin) {
       socket.emit("videoChange", currentVideoLink);
@@ -61,49 +60,52 @@ const PlayerAndChat = () => {
     }
   );
 
-  socket.on("adminDataAnswer", ({ currentSeconds }) => {
-    if (admin) return false; // ADMIN SHOULDNT GET HIS OWN DATA
-    if (player.current) {
-      const videoDuration = player.current.getDuration();
-      const currentTime = player.current.getCurrentTime();
-      // FOR LIVESTREAMS
-      if (videoDuration > currentSeconds) {
-        if (
-          !(
-            currentTime < currentSeconds + maxDelay &&
-            currentTime > currentSeconds - maxDelay
-          )
-        ) {
-          player.current.seekTo(currentSeconds, "seconds");
-        }
-      } else {
-        // HERE IS LIVESTREAM VERSION
-        if (
-          !(
-            currentTime < videoDuration + maxDelay &&
-            currentTime > videoDuration - maxDelay
-          )
-        ) {
-          player.current.seekTo(videoDuration, "seconds");
+  // SOCKETS LISTENERS FOR USERS ONLY
+  if (!admin) {
+    socket.on("changeStreamersChatAnswer", (twitchStreamerChatServer) => {
+      setTwitchStreamerChat(twitchStreamerChatServer);
+    });
+    socket.on("videoChangeAnswer", (currentVideoLink) => {
+      // TURNED OFF FOR ADMIN TO NOT LOOP PAGE
+      setCurrentVideoLink(currentVideoLink);
+    });
+    socket.on("isPlayingSocketAnswer", (isPlaying) => {
+      setIsPlaying(isPlaying);
+    });
+
+    // SYNC SECONDS WITH ADMIN
+    socket.on("adminDataAnswer", ({ currentSeconds }) => {
+      if (player.current) {
+        const videoDuration = player.current.getDuration();
+        const currentTime = player.current.getCurrentTime();
+        // FOR LIVESTREAMS
+        if (videoDuration > currentSeconds) {
+          if (
+            !(
+              currentTime < currentSeconds + maxDelay &&
+              currentTime > currentSeconds - maxDelay
+            )
+          ) {
+            // MAX 2 SENONDS DIFFERENCE
+            player.current.seekTo(currentSeconds, "seconds");
+          }
+        } else {
+          // HERE IS LIVESTREAM VERSION
+          if (
+            !(
+              currentTime < videoDuration + maxDelay &&
+              currentTime > videoDuration - maxDelay
+            )
+          ) {
+            player.current.seekTo(videoDuration, "seconds");
+          }
         }
       }
-    }
-  });
-
-  socket.on("changeStreamersChatAnswer", (twitchStreamerChatServer) => {
-    if (!admin) {
-      setTwitchStreamerChat(twitchStreamerChatServer);
-    }
-  });
-
-  socket.on("videoChangeAnswer", (currentVideoLink) => {
-    // TURNED OFF FOR ADMIN TO NOT LOOP PAGE
-    if (!admin) {
-      setCurrentVideoLink(currentVideoLink);
-    }
-  });
+    });
+  }
 
   const startSendingTimeToSocket = () => {
+    // AVAILABLE ONLY FOR ADMIN
     if (admin) {
       setIsPlaying(true);
       socket.emit("isPlaying", { isPlaying: true });
@@ -111,23 +113,12 @@ const PlayerAndChat = () => {
   };
 
   const stopSendingTimeToSocket = () => {
+    // AVAILABLE ONLY FOR ADMIN
     if (admin) {
       setIsPlaying(false);
       socket.emit("isPlaying", { isPlaying: false });
     }
   };
-
-  socket.on("isPlayingSocketAnswer", (isPlaying) => {
-    if (!admin) {
-      setIsPlaying(isPlaying);
-    }
-  });
-
-  socket.on("currentSeconds", ({ time }) => {
-    if (player.current) {
-      player.current.seekTo(time, "seconds");
-    }
-  });
 
   return (
     <div className="videoAndChat">
