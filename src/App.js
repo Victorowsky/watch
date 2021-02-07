@@ -16,7 +16,7 @@ const App = () => {
   const history = useHistory();
   const [admin, setAdmin] = useState(false);
   const [currentVideoLink, setCurrentVideoLink] = useState("");
-  const [onlineUsers, setOnlineUsers] = useState(null);
+  // const [onlineUsers, setOnlineUsers] = useState(null);
   const [twitchStreamerChat, setTwitchStreamerChat] = useState();
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -33,9 +33,9 @@ const App = () => {
       });
   }, [currentVideoLink]);
 
-  socket.on("onlineUsers", (onlineUsers) => {
-    setOnlineUsers(onlineUsers);
-  });
+  // socket.on("onlineUsers", (onlineUsers) => {
+  //   setOnlineUsers(onlineUsers);
+  // });
 
   return (
     <>
@@ -47,7 +47,7 @@ const App = () => {
           currentVideoLink,
           setCurrentVideoLink,
           history,
-          onlineUsers,
+          // onlineUsers,
           twitchStreamerChat,
           setTwitchStreamerChat,
           isSuccess,

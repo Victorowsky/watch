@@ -20,15 +20,15 @@ const AdminPanel = () => {
     setEditVideoLink("");
   };
 
-  // const handleLeaveAdmin = () => {
-  //   const confirmAnswer = window.confirm(
-  //     "Are you sure you don't want to be admin?"
-  //   );
-  //   if (confirmAnswer) {
-  //     setAdmin((prev) => !prev);
-  //     socket.emit("adminLeave", {currentRoom});
-  //   }
-  // };
+  const handleLeaveAdmin = () => {
+    const confirmAnswer = window.confirm(
+      "Are you sure you don't want to be an admin?"
+    );
+    if (confirmAnswer) {
+      setAdmin(false);
+      socket.emit("adminLeave");
+    }
+  };
 
   const handleChangeStreamersChat = () => {
     const newStreamerChat = prompt("Insert new twitch user:");
@@ -67,12 +67,11 @@ const AdminPanel = () => {
         </form>
       )}
       <div className="adminButtonsDiv">
-        <Button
+        {/* <Button
           text={"CHANGE STREAMER'S CHAT"}
           onClick={handleChangeStreamersChat}
-        />
-        {/* <Button text={"LEAVE ADMIN"} 
-        onClick={handleLeaveAdmin} /> */}
+        /> */}
+        <Button text={"LEAVE ADMIN"} onClick={handleLeaveAdmin} />
       </div>
     </>
   );

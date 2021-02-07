@@ -13,7 +13,7 @@ const PlayerAndChat = () => {
   if (twitchStreamer === undefined) {
     twitchStreamer = "victorowsky_";
   }
-
+  const [onlineUsers, setOnlineUsers] = useState(1);
   const [currentRoom, setCurrentRoom] = useState(twitchStreamer);
 
   const {
@@ -21,7 +21,6 @@ const PlayerAndChat = () => {
     setCurrentVideoLink,
     currentVideoLink,
     socket,
-    onlineUsers,
     setAdmin,
     setIsSuccess,
     setIsError,
@@ -32,8 +31,9 @@ const PlayerAndChat = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const player = useRef();
   const maxDelay = 2;
-  // const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
-  const websiteURL = "localhost"; // FOR TWITCH CHAT
+  const maxDelayLive = 6;
+  const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
+  // const websiteURL = "localhost"; // FOR TWITCH CHAT
 
   // ADMIN EMITS HIS DATA TO SHARE WITH OTHERS
   useEffect(() => {
@@ -65,8 +65,12 @@ const PlayerAndChat = () => {
 
   // DELETING ADMIN IF SWITCHING BETWEEN CHANNELS
   useEffect(() => {
+    window.addEventListener("beforeunload", (ev) => {
+      ev.preventDefault();
+      socket.emit("leaveRoom", { currentRoom });
+      socket.emit("adminLeave");
+    });
     setCurrentRoom(twitchStreamer);
-    socket.emit("adminLeave");
   }, [location.pathname]);
 
   // JOINING TO ROOM
@@ -76,11 +80,16 @@ const PlayerAndChat = () => {
       socket.emit("leaveRoom", { currentRoom });
       setAdmin(false);
       socket.emit("adminLeave");
+      console.log("refresh");
     };
   }, [currentRoom]);
 
   // SOCKETS LISTENERS FOR USERS ONLY
   useEffect(() => {
+    socket.on("onlineUsersAnswer", ({ onlineUsers }) => {
+      setOnlineUsers(onlineUsers);
+    });
+
     if (!admin) {
       socket.on("videoChangeAnswer", ({ currentVideoLink }) => {
         // TURNED OFF FOR ADMIN TO NOT LOOP PAGE
@@ -92,6 +101,8 @@ const PlayerAndChat = () => {
 
       socket.on("joinRoomAnswer", ({ docs }) => {
         setCurrentVideoLink(docs.currentVideoLink);
+        setOnlineUsers(docs.onlineUsers);
+        console.log(docs);
       });
 
       // SYNC SECONDS WITH ADMIN
@@ -103,8 +114,8 @@ const PlayerAndChat = () => {
           if (videoDuration > currentSeconds) {
             if (
               !(
-                currentTime < currentSeconds + maxDelay &&
-                currentTime > currentSeconds - maxDelay
+                currentTime < currentSeconds + maxDelayLive &&
+                currentTime > currentSeconds - maxDelayLive
               )
             ) {
               // MAX 2 SENONDS DIFFERENCE
@@ -114,11 +125,11 @@ const PlayerAndChat = () => {
             // HERE IS LIVESTREAM VERSION
             if (
               !(
-                currentTime < videoDuration + maxDelay &&
-                currentTime > videoDuration - maxDelay
+                currentTime < videoDuration + maxDelay - 3 &&
+                currentTime > videoDuration - maxDelay - 3
               )
             ) {
-              player.current.seekTo(videoDuration, "seconds");
+              player.current.seekTo(videoDuration - 3, "seconds");
             }
           }
         }
