@@ -6,13 +6,9 @@ import { DataContext } from "../App";
 import "./AdminPanel.css";
 
 const AdminPanel = () => {
-  const {
-    admin,
-    setAdmin,
-    setCurrentVideoLink,
-    socket,
-    setTwitchStreamerChat,
-  } = useContext(DataContext);
+  const { admin, setAdmin, setCurrentVideoLink, socket } = useContext(
+    DataContext
+  );
   const [editVideoLink, setEditVideoLink] = useState();
 
   const handleAddVideo = () => {
@@ -27,14 +23,6 @@ const AdminPanel = () => {
     if (confirmAnswer) {
       setAdmin(false);
       socket.emit("adminLeave");
-    }
-  };
-
-  const handleChangeStreamersChat = () => {
-    const newStreamerChat = prompt("Insert new twitch user:");
-    if (newStreamerChat) {
-      setTwitchStreamerChat(newStreamerChat);
-      socket.emit("changeStreamersChat", newStreamerChat);
     }
   };
 
@@ -67,10 +55,6 @@ const AdminPanel = () => {
         </form>
       )}
       <div className="adminButtonsDiv">
-        {/* <Button
-          text={"CHANGE STREAMER'S CHAT"}
-          onClick={handleChangeStreamersChat}
-        /> */}
         <Button text={"LEAVE ADMIN"} onClick={handleLeaveAdmin} />
       </div>
     </>

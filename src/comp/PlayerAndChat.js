@@ -13,7 +13,7 @@ const PlayerAndChat = () => {
   if (twitchStreamer === undefined) {
     twitchStreamer = "victorowsky_";
   }
-  const [onlineUsers, setOnlineUsers] = useState(1);
+  const [onlineUsers, setOnlineUsers] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(twitchStreamer);
 
   const {
@@ -61,6 +61,7 @@ const PlayerAndChat = () => {
       });
     }
     // HERE CAN BE CURRENTROOM, CUZ I WILL SEND ANOTHER ADMIN DATA
+    // eslint-disable-next-line
   }, [currentVideoLink, socket]);
 
   // DELETING ADMIN IF SWITCHING BETWEEN CHANNELS
@@ -71,6 +72,7 @@ const PlayerAndChat = () => {
       socket.emit("adminLeave");
     });
     setCurrentRoom(twitchStreamer);
+    // eslint-disable-next-line
   }, [location.pathname]);
 
   // JOINING TO ROOM
@@ -80,8 +82,8 @@ const PlayerAndChat = () => {
       socket.emit("leaveRoom", { currentRoom });
       setAdmin(false);
       socket.emit("adminLeave");
-      console.log("refresh");
     };
+    // eslint-disable-next-line
   }, [currentRoom]);
 
   // SOCKETS LISTENERS FOR USERS ONLY
@@ -102,7 +104,6 @@ const PlayerAndChat = () => {
       socket.on("joinRoomAnswer", ({ docs }) => {
         setCurrentVideoLink(docs.currentVideoLink);
         setOnlineUsers(docs.onlineUsers);
-        console.log(docs);
       });
 
       // SYNC SECONDS WITH ADMIN
@@ -139,7 +140,8 @@ const PlayerAndChat = () => {
         socket.offAny();
       };
     }
-  }, [currentRoom, admin]);
+    // eslint-disable-next-line
+  }, [currentRoom, admin, socket]);
 
   const startSendingTimeToSocket = () => {
     // AVAILABLE ONLY FOR ADMIN
@@ -197,7 +199,7 @@ const PlayerAndChat = () => {
         </div>
         <div className="twitchChat">
           <span className="onlineUsers">
-            {onlineUsers ? `${onlineUsers} ONLINE` : "CONNECTING"}
+            {onlineUsers !== null ? `${onlineUsers} ONLINE` : "CONNECTING"}
           </span>
           <iframe
             style={{ border: "2px solid #121212" }}

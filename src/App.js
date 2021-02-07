@@ -3,21 +3,18 @@ import { Switch, Route, useHistory } from "react-router-dom";
 import io from "socket.io-client";
 import "./App.css";
 import AdminPanel from "./comp/AdminPanel";
-import AdminLogin from "./comp/AdminLogin";
 import PlayerAndChat from "./comp/PlayerAndChat";
 import Success from "./comp/Snackbars/Success";
 import Error from "./comp/Snackbars/Error";
 export const DataContext = React.createContext();
 
-const socket = io(`http://localhost:3001/`);
-// const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
-// const socket = io(serverURL);
+// const socket = io(`http://localhost:3001/`);
+const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
+const socket = io(serverURL);
 const App = () => {
   const history = useHistory();
   const [admin, setAdmin] = useState(false);
   const [currentVideoLink, setCurrentVideoLink] = useState("");
-  // const [onlineUsers, setOnlineUsers] = useState(null);
-  const [twitchStreamerChat, setTwitchStreamerChat] = useState();
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -33,10 +30,6 @@ const App = () => {
       });
   }, [currentVideoLink]);
 
-  // socket.on("onlineUsers", (onlineUsers) => {
-  //   setOnlineUsers(onlineUsers);
-  // });
-
   return (
     <>
       <DataContext.Provider
@@ -47,9 +40,6 @@ const App = () => {
           currentVideoLink,
           setCurrentVideoLink,
           history,
-          // onlineUsers,
-          twitchStreamerChat,
-          setTwitchStreamerChat,
           isSuccess,
           setIsSuccess,
           isError,
@@ -70,13 +60,6 @@ const App = () => {
             <Route path="/:twitchStreamer" exact>
               <PlayerAndChat />
               <div className="bottomDiv">{admin && <AdminPanel />}</div>
-            </Route>
-
-            <Route path="/admin" exact>
-              <AdminLogin />
-            </Route>
-            <Route path="/:twitchStreamer/admin">
-              <AdminLogin />
             </Route>
           </Switch>
           <Success />
