@@ -17,12 +17,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OutlinedButtons({ text, onClick }) {
+export default function OutlinedButtons({ text, onClick, style }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Button onClick={onClick && onClick} variant="outlined">
+      <Button
+        onClick={onClick && onClick}
+        style={style && style}
+        variant="outlined"
+      >
         {text ? text : "Enter text"}
       </Button>
     </div>

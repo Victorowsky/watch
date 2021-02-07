@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import { DataContext } from "../App";
+import { useParams } from "react-router-dom";
+
 const AdminLogin = () => {
   const { socket, admin, setAdmin, history } = useContext(DataContext);
   const [password, setPassword] = useState("");
   const [isAlert, setIsAlert] = useState(0);
+  const { twitchStreamer } = useParams();
+
   const handleLogin = () => {
-    socket.emit("handleLogin", { password });
+    socket.emit("handleLogin", { password, twitchStreamer });
   };
 
   socket.on("handleLoginAnswer", ({ success, message }) => {
