@@ -31,7 +31,7 @@ export default function CustomizedSnackbars() {
 
   return (
     <div className={classes.root}>
-      <Snackbar open={isError} autoHideDuration={3000} onClose={handleClose}>
+      <Snackbar open={isError} autoHideDuration={1000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
           {errorMessage}
         </Alert>

@@ -30,8 +30,10 @@ const PlayerAndChat = () => {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const player = useRef();
-  const maxDelay = 2;
+  // const maxDelay = 2;
+  const [maxDelay, setMaxDelay] = useState(2);
   const maxDelayLive = 6;
+  const [isAdminTaken, setIsAdminTaken] = useState(true);
   const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
   // const websiteURL = "localhost"; // FOR TWITCH CHAT
 
@@ -104,6 +106,16 @@ const PlayerAndChat = () => {
       socket.on("joinRoomAnswer", ({ docs }) => {
         setCurrentVideoLink(docs.currentVideoLink);
         setOnlineUsers(docs.onlineUsers);
+        console.log(docs.admin);
+        if (docs.admin) {
+          setIsAdminTaken(true);
+        } else {
+          setIsAdminTaken(false);
+        }
+      });
+
+      socket.on("adminAnswer", ({ isAdminTaken }) => {
+        setIsAdminTaken(isAdminTaken);
       });
 
       // SYNC SECONDS WITH ADMIN
@@ -113,10 +125,11 @@ const PlayerAndChat = () => {
           const currentTime = player.current.getCurrentTime();
           // FOR LIVESTREAMS
           if (videoDuration > currentSeconds) {
+            // STANDARD VIDEO
             if (
               !(
-                currentTime < currentSeconds + maxDelayLive &&
-                currentTime > currentSeconds - maxDelayLive
+                currentTime - maxDelay < currentSeconds &&
+                currentTime + maxDelay > currentSeconds
               )
             ) {
               // MAX 2 SENONDS DIFFERENCE
@@ -126,22 +139,26 @@ const PlayerAndChat = () => {
             // HERE IS LIVESTREAM VERSION
             if (
               !(
-                currentTime < videoDuration + maxDelay - 3 &&
-                currentTime > videoDuration - maxDelay - 3
+                currentTime < videoDuration + maxDelayLive &&
+                currentTime > videoDuration - maxDelayLive
               )
             ) {
-              player.current.seekTo(videoDuration - 3, "seconds");
+              player.current.seekTo(videoDuration, "seconds");
             }
           }
         }
       });
 
       return () => {
-        socket.offAny();
+        socket.removeAllListeners(`adminDataAnswer`);
+        socket.removeAllListeners(`joinRoomAnswer`);
+        socket.removeAllListeners(`isPlayingSocketAnswer`);
+        socket.removeAllListeners(`videoChangeAnswer`);
+        socket.removeAllListeners("adminAnswer");
       };
     }
     // eslint-disable-next-line
-  }, [currentRoom, admin, socket]);
+  }, [currentRoom, admin, socket, maxDelay]);
 
   const startSendingTimeToSocket = () => {
     // AVAILABLE ONLY FOR ADMIN
@@ -180,6 +197,20 @@ const PlayerAndChat = () => {
     }
   });
 
+  const handleChangeMaxDelay = (type) => {
+    if (type === "increment") {
+      setMaxDelay((prev) => prev + 1);
+    } else if (type === "decrement") {
+      setMaxDelay((prev) => {
+        if (prev > 2) {
+          return prev + -1;
+        } else {
+          return prev;
+        }
+      });
+    }
+  };
+
   return (
     <div className="videoAndChat">
       <div className="playerAndChat">
@@ -210,11 +241,30 @@ const PlayerAndChat = () => {
             width="100%"
           ></iframe>
           {!admin && (
-            <Button
-              text={"GET ADMIN"}
-              onClick={handleAdminRequest}
-              style={{ borderColor: "white", color: "white" }}
-            />
+            <>
+              <span className="delayInfo">Max Delay: {maxDelay} seconds</span>
+              <div className="delayManage">
+                <div
+                  className="delayManageOption"
+                  onClick={() => handleChangeMaxDelay("increment")}
+                >
+                  +
+                </div>
+                <div
+                  className="delayManageOption"
+                  onClick={() => handleChangeMaxDelay("decrement")}
+                >
+                  -
+                </div>
+              </div>
+              {!isAdminTaken && (
+                <Button
+                  text={"GET ADMIN"}
+                  onClick={handleAdminRequest}
+                  style={{ borderColor: "white", color: "white" }}
+                />
+              )}
+            </>
           )}
         </div>
       </div>

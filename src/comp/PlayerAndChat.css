@@ -25,3 +25,26 @@
   border-radius: 10px;
   background-color: #121212;
 }
+.delayInfo {
+  color: white;
+  text-transform: uppercase;
+}
+.delayManage {
+  color: white;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 5px 0;
+  align-items: center;
+}
+.delayManageOption {
+  padding: 5px;
+  border: 2px solid white;
+  border-radius: 5px;
+  width: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.delayManageOption:hover {
+  background-color: rgba(255, 255, 255, 0.11);
+}
