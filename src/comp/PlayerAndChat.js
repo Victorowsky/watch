@@ -5,6 +5,8 @@ import { DataContext } from "../App";
 import "./PlayerAndChat.css";
 import { useParams, useLocation } from "react-router-dom";
 import Button from "./Button";
+import PlusOneIcon from "@material-ui/icons/PlusOne";
+import MinusOneIcon from "@material-ui/icons/ExposureNeg1";
 
 const PlayerAndChat = () => {
   let location = useLocation();
@@ -245,16 +247,16 @@ const PlayerAndChat = () => {
               <span className="delayInfo">Max Delay: {maxDelay} seconds</span>
               <div className="delayManage">
                 <div
-                  className="delayManageOption"
-                  onClick={() => handleChangeMaxDelay("increment")}
-                >
-                  +
-                </div>
-                <div
-                  className="delayManageOption"
+                  className="delayManageOptionDecrement"
                   onClick={() => handleChangeMaxDelay("decrement")}
                 >
-                  -
+                  <MinusOneIcon />
+                </div>
+                <div
+                  className="delayManageOptionIncrement"
+                  onClick={() => handleChangeMaxDelay("increment")}
+                >
+                  <PlusOneIcon />
                 </div>
               </div>
               {!isAdminTaken && (

@@ -37,7 +37,7 @@
   padding: 5px 0;
   align-items: center;
 }
-.delayManageOption {
+.delayManageOptionDecrement {
   padding: 5px;
   border: 2px solid white;
   border-radius: 5px;
@@ -45,6 +45,19 @@
   cursor: pointer;
   transition: 0.3s;
 }
+.delayManageOptionIncrement {
+  padding: 5px;
+  border: 2px solid white;
+  border-radius: 5px;
+  width: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.delayManageOptionDecrement:hover {
+  background-color: #f94144;
+}
+.delayManageOptionIncrement:hover {
+  background-color: #90be6d;
+}
 .delayManageOption:hover {
-  background-color: rgba(255, 255, 255, 0.11);
 }
