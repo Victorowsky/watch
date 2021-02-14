@@ -1,15 +1,27 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-
-import Button from "./Button";
-import { DataContext } from "../App";
+import QueueButton from "./QueueButton";
+import Button from "../Button";
+import { DataContext } from "../../App";
 import "./AdminPanel.css";
+import Queue from "./Queue";
 
 const AdminPanel = () => {
-  const { admin, setAdmin, setCurrentVideoLink, socket } = useContext(
-    DataContext
-  );
+  const {
+    admin,
+    setAdmin,
+    setCurrentVideoLink,
+    socket,
+    setVideoQueue,
+  } = useContext(DataContext);
   const [editVideoLink, setEditVideoLink] = useState();
+
+  const handleAddVideoToQueue = () => {
+    if (editVideoLink) {
+      setVideoQueue((prev) => [...prev, editVideoLink]);
+      setEditVideoLink("");
+    }
+  };
 
   const handleAddVideo = () => {
     if (editVideoLink) {
@@ -33,7 +45,6 @@ const AdminPanel = () => {
       <br />
       {admin && (
         // ADDING VIDEO PANEL
-
         <form>
           <input
             type="text"
@@ -54,11 +65,19 @@ const AdminPanel = () => {
             }}
             type="submit"
           ></button>
+          <div className="optionButtons">
+            <QueueButton text={"PLAY NOW"} onClick={handleAddVideo} />
+            <QueueButton
+              text={"ADD TO QUEUE"}
+              onClick={handleAddVideoToQueue}
+            />
+          </div>
         </form>
       )}
       <div className="adminButtonsDiv">
         <Button text={"LEAVE ADMIN"} onClick={handleLeaveAdmin} />
       </div>
+      <Queue />
     </>
   );
 };

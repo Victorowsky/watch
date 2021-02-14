@@ -28,6 +28,8 @@ const PlayerAndChat = () => {
     setIsError,
     setErrorMessage,
     setSuccessMessage,
+    videoQueue,
+    setVideoQueue,
   } = useContext(DataContext);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -150,12 +152,24 @@ const PlayerAndChat = () => {
         }
       });
 
+      socket.on("adminRequestAnswer", ({ success, message }) => {
+        if (success) {
+          setIsSuccess(true);
+          setSuccessMessage(message);
+          setAdmin(true);
+        } else {
+          setIsError(true);
+          setErrorMessage(message);
+        }
+      });
+
       return () => {
         socket.removeAllListeners(`adminDataAnswer`);
         socket.removeAllListeners(`joinRoomAnswer`);
         socket.removeAllListeners(`isPlayingSocketAnswer`);
         socket.removeAllListeners(`videoChangeAnswer`);
         socket.removeAllListeners("adminAnswer");
+        socket.removeAllListeners("adminRequestAnswer");
       };
     }
     // eslint-disable-next-line
@@ -187,17 +201,6 @@ const PlayerAndChat = () => {
     socket.emit("adminRequest", { currentRoom: twitchStreamer });
   };
 
-  socket.on("adminRequestAnswer", ({ success, message }) => {
-    if (success) {
-      setIsSuccess(true);
-      setSuccessMessage(message);
-      setAdmin(true);
-    } else {
-      setIsError(true);
-      setErrorMessage(message);
-    }
-  });
-
   const handleChangeMaxDelay = (type) => {
     if (type === "increment") {
       setMaxDelay((prev) => prev + 1);
@@ -212,6 +215,15 @@ const PlayerAndChat = () => {
     }
   };
 
+  const handleAdminCheckQueue = () => {
+    if (admin) {
+      if (videoQueue) {
+        setCurrentVideoLink(videoQueue[0]);
+        setVideoQueue((prev) => prev.slice(1));
+      }
+    }
+  };
+
   return (
     <div className="videoAndChat">
       <div className="playerAndChat">
@@ -221,6 +233,7 @@ const PlayerAndChat = () => {
             onPlay={startSendingTimeToSocket}
             onPause={stopSendingTimeToSocket}
             playing={isPlaying}
+            onEnded={handleAdminCheckQueue}
             className="react-player"
             url={currentVideoLink}
             width="100%"

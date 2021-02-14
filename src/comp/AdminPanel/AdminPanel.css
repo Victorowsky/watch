@@ -1,0 +1,28 @@
+.adminButtonsDiv {
+  display: flex;
+  justify-content: center;
+}
+.optionButtons {
+  display: flex;
+  justify-content: center;
+}
+.queue {
+  display: flex;
+  color: white;
+  flex-direction: column;
+}
+.queueItem {
+  padding: 15px 10px;
+  text-align: start;
+  justify-content: flex-start;
+  border-bottom: 1px solid grey;
+  font-weight: bold;
+}
+.queueItem:nth-child(2) {
+  background-color: #121212;
+}
+
+.queueItem a {
+  text-decoration: none;
+  color: inherit;
+}

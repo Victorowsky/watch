@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 import io from "socket.io-client";
 import "./App.css";
-import AdminPanel from "./comp/AdminPanel";
+import AdminPanel from "./comp/AdminPanel/AdminPanel";
 import PlayerAndChat from "./comp/PlayerAndChat";
 import Success from "./comp/Snackbars/Success";
 import Error from "./comp/Snackbars/Error";
@@ -19,6 +19,8 @@ const App = () => {
   const [isError, setIsError] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [videoQueue, setVideoQueue] = useState([]);
+
   useEffect(() => {
     fetch(`https://noembed.com/embed?url=${currentVideoLink}`)
       .then((res) => res.json())
@@ -48,6 +50,8 @@ const App = () => {
           setSuccessMessage,
           errorMessage,
           setErrorMessage,
+          videoQueue,
+          setVideoQueue,
         }}
       >
         <div className="app">
