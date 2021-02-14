@@ -5,8 +5,8 @@ import { DataContext } from "../App";
 import "./PlayerAndChat.css";
 import { useParams, useLocation } from "react-router-dom";
 import Button from "./Button";
-import PlusOneIcon from "@material-ui/icons/PlusOne";
-import MinusOneIcon from "@material-ui/icons/ExposureNeg1";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 
 const PlayerAndChat = () => {
   let location = useLocation();
@@ -108,7 +108,6 @@ const PlayerAndChat = () => {
       socket.on("joinRoomAnswer", ({ docs }) => {
         setCurrentVideoLink(docs.currentVideoLink);
         setOnlineUsers(docs.onlineUsers);
-        console.log(docs.admin);
         if (docs.admin) {
           setIsAdminTaken(true);
         } else {
@@ -250,13 +249,13 @@ const PlayerAndChat = () => {
                   className="delayManageOptionDecrement"
                   onClick={() => handleChangeMaxDelay("decrement")}
                 >
-                  <MinusOneIcon />
+                  <RemoveIcon />
                 </div>
                 <div
                   className="delayManageOptionIncrement"
                   onClick={() => handleChangeMaxDelay("increment")}
                 >
-                  <PlusOneIcon />
+                  <AddIcon />
                 </div>
               </div>
               {!isAdminTaken && (

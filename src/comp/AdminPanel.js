@@ -12,8 +12,10 @@ const AdminPanel = () => {
   const [editVideoLink, setEditVideoLink] = useState();
 
   const handleAddVideo = () => {
-    setCurrentVideoLink(editVideoLink);
-    setEditVideoLink("");
+    if (editVideoLink) {
+      setCurrentVideoLink(editVideoLink);
+      setEditVideoLink("");
+    }
   };
 
   const handleLeaveAdmin = () => {
