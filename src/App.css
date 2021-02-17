@@ -32,6 +32,10 @@ input:focus {
   width: 400px;
 }
 
+.bottomDiv {
+  z-index: -100;
+}
+
 @media (max-width: 720px) {
   .app {
     height: 100vh;

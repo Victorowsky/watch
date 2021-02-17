@@ -49,6 +49,7 @@ const PlayerAndChat = () => {
         socket.emit(`adminData`, {
           currentRoom,
           currentSeconds: player.current.getCurrentTime(),
+          videoQueue,
         });
       }, 3000);
     }
@@ -56,7 +57,7 @@ const PlayerAndChat = () => {
       // socket.emit("adminLeave", { currentRoom });
       clearInterval(interval);
     };
-  }, [admin, socket, currentRoom]);
+  }, [admin, socket, currentRoom, videoQueue]);
 
   // EMIT CHANGE VIDEO IF ADMIN CHANGES
   useEffect(() => {
@@ -66,7 +67,7 @@ const PlayerAndChat = () => {
         currentRoom,
       });
     }
-    // HERE CAN BE CURRENTROOM, CUZ I WILL SEND ANOTHER ADMIN DATA
+    // HERE CANT BE CURRENTROOM, CUZ I WILL SEND ANOTHER ADMIN DATA
     // eslint-disable-next-line
   }, [currentVideoLink, socket]);
 
@@ -119,10 +120,12 @@ const PlayerAndChat = () => {
 
       socket.on("adminAnswer", ({ isAdminTaken }) => {
         setIsAdminTaken(isAdminTaken);
+        console.log(isAdminTaken);
       });
 
       // SYNC SECONDS WITH ADMIN
-      socket.on(`adminDataAnswer`, ({ currentSeconds }) => {
+      socket.on(`adminDataAnswer`, ({ currentSeconds, videoQueue }) => {
+        setVideoQueue(videoQueue);
         if (player.current) {
           const videoDuration = player.current.getDuration();
           const currentTime = player.current.getCurrentTime();
@@ -163,6 +166,11 @@ const PlayerAndChat = () => {
         }
       });
 
+      socket.on("adminQueueUpdateAnswer", ({ videoQueue }) => {
+        console.log(videoQueue);
+        setVideoQueue(videoQueue);
+      });
+
       return () => {
         socket.removeAllListeners(`adminDataAnswer`);
         socket.removeAllListeners(`joinRoomAnswer`);
@@ -170,6 +178,7 @@ const PlayerAndChat = () => {
         socket.removeAllListeners(`videoChangeAnswer`);
         socket.removeAllListeners("adminAnswer");
         socket.removeAllListeners("adminRequestAnswer");
+        socket.removeAllListeners("adminQueueUpdateAnswer");
       };
     }
     // eslint-disable-next-line
@@ -256,28 +265,30 @@ const PlayerAndChat = () => {
           ></iframe>
           {!admin && (
             <>
-              <span className="delayInfo">Max Delay: {maxDelay} seconds</span>
-              <div className="delayManage">
-                <div
-                  className="delayManageOptionDecrement"
-                  onClick={() => handleChangeMaxDelay("decrement")}
-                >
-                  <RemoveIcon />
+              <div className="delayInfoContainer">
+                <span className="delayInfo">Max Delay: {maxDelay} seconds</span>
+                <div className="delayManage">
+                  <div
+                    className="delayManageOptionDecrement"
+                    onClick={() => handleChangeMaxDelay("decrement")}
+                  >
+                    <RemoveIcon />
+                  </div>
+                  <div
+                    className="delayManageOptionIncrement"
+                    onClick={() => handleChangeMaxDelay("increment")}
+                  >
+                    <AddIcon />
+                  </div>
                 </div>
-                <div
-                  className="delayManageOptionIncrement"
-                  onClick={() => handleChangeMaxDelay("increment")}
-                >
-                  <AddIcon />
-                </div>
+                {!isAdminTaken && (
+                  <Button
+                    text={"GET ADMIN"}
+                    onClick={handleAdminRequest}
+                    style={{ borderColor: "white", color: "white" }}
+                  />
+                )}
               </div>
-              {!isAdminTaken && (
-                <Button
-                  text={"GET ADMIN"}
-                  onClick={handleAdminRequest}
-                  style={{ borderColor: "white", color: "white" }}
-                />
-              )}
             </>
           )}
         </div>

@@ -6,11 +6,12 @@ import AdminPanel from "./comp/AdminPanel/AdminPanel";
 import PlayerAndChat from "./comp/PlayerAndChat";
 import Success from "./comp/Snackbars/Success";
 import Error from "./comp/Snackbars/Error";
+import Queue from "./comp/AdminPanel/Queue";
 export const DataContext = React.createContext();
 
-// const socket = io(`http://localhost:3001/`);
-const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
-const socket = io(serverURL);
+const socket = io(`http://localhost:3001/`);
+// const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
+// const socket = io(serverURL);
 const App = () => {
   const history = useHistory();
   const [admin, setAdmin] = useState(false);
@@ -59,11 +60,15 @@ const App = () => {
             {/* DEFAULT TWITCH CHAT FOR MY CHANNEL (VICTOROWSKY_) */}
             <Route path="/" exact>
               <PlayerAndChat />
-              <div className="bottomDiv">{admin && <AdminPanel />}</div>
+              <div className="bottomDiv">
+                {admin ? <AdminPanel /> : <Queue />}
+              </div>
             </Route>
             <Route path="/:twitchStreamer" exact>
               <PlayerAndChat />
-              <div className="bottomDiv">{admin && <AdminPanel />}</div>
+              <div className="bottomDiv">
+                {admin ? <AdminPanel /> : <Queue />}
+              </div>
             </Route>
           </Switch>
           <Success />
