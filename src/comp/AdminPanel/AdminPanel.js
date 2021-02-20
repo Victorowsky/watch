@@ -29,15 +29,16 @@ const AdminPanel = () => {
   const [editVideoLink, setEditVideoLink] = useState();
 
   let { twitchStreamer } = useParams();
-  // DEFAULT VALUE IS MY CHANNEL
+
   if (twitchStreamer === undefined) {
     twitchStreamer = "victorowsky_";
   }
+  twitchStreamer = twitchStreamer?.toLowerCase();
+  // DEFAULT VALUE IS MY CHANNEL
 
   useEffect(() => {
     if (twitchUserData) {
       if (twitchUserData.login.toLowerCase() === twitchStreamer.toLowerCase()) {
-        console.log("SETTING ADMIN");
         if (!admin) {
           setAdmin(true);
         }
