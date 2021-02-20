@@ -11,6 +11,8 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
 const AdminPanel = () => {
+  const websiteURL = `https://boiling-bastion-80662.herokuapp.com`;
+
   const {
     twitchUserData,
     admin,
@@ -119,13 +121,11 @@ const AdminPanel = () => {
   };
 
   const handleTwitchLogin = () => {
-    window.location.href =
-      "https://boiling-bastion-80662.herokuapp.com/auth/twitch";
+    window.location.href = `${websiteURL}/auth/twitch`;
   };
 
   const handleLogout = () => {
-    window.location.href =
-      "https://boiling-bastion-80662.herokuapp.com/twitch/logout";
+    window.location.href = `${websiteURL}/twitch/logout`;
   };
 
   return (
@@ -197,10 +197,20 @@ const AdminPanel = () => {
 
             {twitchUserData ? (
               <div className="accountInfo">
-                <div className="img">
-                  <img src={twitchUserData.image} alt="twitchImage" srcset="" />
-                </div>
-                {twitchUserData.login}
+                <a
+                  href={`${websiteURL}/#/${twitchUserData.login}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="img">
+                    <img
+                      src={twitchUserData.image}
+                      alt="twitchImage"
+                      srcset=""
+                    />
+                  </div>
+                  {twitchUserData.login}
+                </a>
               </div>
             ) : (
               <>
