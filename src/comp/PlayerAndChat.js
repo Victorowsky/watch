@@ -94,6 +94,10 @@ const PlayerAndChat = () => {
       setOnlineUsers(onlineUsers);
     });
 
+    socket.on("joinRoomAnswer", ({ docs }) => {
+      setCurrentVideoLink(docs.currentVideoLink);
+    });
+
     if (!admin) {
       socket.on("videoChangeAnswer", ({ currentVideoLink }) => {
         // TURNED OFF FOR ADMIN TO NOT LOOP PAGE
