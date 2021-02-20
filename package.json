@@ -1,8 +1,9 @@
 {
   "name": "app",
   "version": "0.1.0",
+  "proxy": "http://localhost:3001",
   "private": true,
-  "homepage": "http://victorowsky.github.io/watch",
+  "homepage": "http://localhost:3001",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",

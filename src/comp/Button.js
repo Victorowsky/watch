@@ -8,10 +8,10 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       borderColor: "white",
       color: "white",
-      transition: "0.3s",
+      transition: "0.3s ease-in-out",
       "&:hover": {
-        color: "red",
-        borderColor: "red",
+        color: "#6441a5",
+        borderColor: "#6441a5",
       },
     },
   },

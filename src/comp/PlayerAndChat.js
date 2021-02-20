@@ -4,9 +4,6 @@ import ReactPlayer from "react-player/lazy";
 import { DataContext } from "../App";
 import "./PlayerAndChat.css";
 import { useParams, useLocation } from "react-router-dom";
-import Button from "./Button";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
 
 const PlayerAndChat = () => {
   let location = useLocation();
@@ -17,7 +14,6 @@ const PlayerAndChat = () => {
   }
   const [onlineUsers, setOnlineUsers] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(twitchStreamer);
-
   const {
     admin,
     setCurrentVideoLink,
@@ -30,16 +26,16 @@ const PlayerAndChat = () => {
     setSuccessMessage,
     videoQueue,
     setVideoQueue,
+    maxDelay,
+    setIsAdminTaken,
   } = useContext(DataContext);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const player = useRef();
   // const maxDelay = 2;
-  const [maxDelay, setMaxDelay] = useState(2);
   const maxDelayLive = 6;
-  const [isAdminTaken, setIsAdminTaken] = useState(true);
   const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
-  // const websiteURL = "localhost"; // FOR TWITCH CHAT
+  // const websiteURL = "localhost"; // FOR TWITCH C  HAT
 
   // ADMIN EMITS HIS DATA TO SHARE WITH OTHERS
   useEffect(() => {
@@ -120,7 +116,6 @@ const PlayerAndChat = () => {
 
       socket.on("adminAnswer", ({ isAdminTaken }) => {
         setIsAdminTaken(isAdminTaken);
-        console.log(isAdminTaken);
       });
 
       // SYNC SECONDS WITH ADMIN
@@ -167,7 +162,6 @@ const PlayerAndChat = () => {
       });
 
       socket.on("adminQueueUpdateAnswer", ({ videoQueue }) => {
-        console.log(videoQueue);
         setVideoQueue(videoQueue);
       });
 
@@ -202,24 +196,6 @@ const PlayerAndChat = () => {
       socket.emit("isPlaying", {
         isPlaying: false,
         currentRoom,
-      });
-    }
-  };
-
-  const handleAdminRequest = () => {
-    socket.emit("adminRequest", { currentRoom: twitchStreamer });
-  };
-
-  const handleChangeMaxDelay = (type) => {
-    if (type === "increment") {
-      setMaxDelay((prev) => prev + 1);
-    } else if (type === "decrement") {
-      setMaxDelay((prev) => {
-        if (prev > 2) {
-          return prev + -1;
-        } else {
-          return prev;
-        }
       });
     }
   };
@@ -263,34 +239,6 @@ const PlayerAndChat = () => {
             height="100%"
             width="100%"
           ></iframe>
-          {!admin && (
-            <>
-              <div className="delayInfoContainer">
-                <span className="delayInfo">Max Delay: {maxDelay} seconds</span>
-                <div className="delayManage">
-                  <div
-                    className="delayManageOptionDecrement"
-                    onClick={() => handleChangeMaxDelay("decrement")}
-                  >
-                    <RemoveIcon />
-                  </div>
-                  <div
-                    className="delayManageOptionIncrement"
-                    onClick={() => handleChangeMaxDelay("increment")}
-                  >
-                    <AddIcon />
-                  </div>
-                </div>
-                {!isAdminTaken && (
-                  <Button
-                    text={"GET ADMIN"}
-                    onClick={handleAdminRequest}
-                    style={{ borderColor: "white", color: "white" }}
-                  />
-                )}
-              </div>
-            </>
-          )}
         </div>
       </div>
     </div>

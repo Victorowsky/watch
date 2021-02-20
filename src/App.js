@@ -6,10 +6,10 @@ import AdminPanel from "./comp/AdminPanel/AdminPanel";
 import PlayerAndChat from "./comp/PlayerAndChat";
 import Success from "./comp/Snackbars/Success";
 import Error from "./comp/Snackbars/Error";
-import Queue from "./comp/AdminPanel/Queue";
+// import Queue from "./comp/AdminPanel/Queue";
 export const DataContext = React.createContext();
 
-const socket = io(`http://localhost:3001/`);
+const socket = io(`/`);
 // const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
 // const socket = io(serverURL);
 const App = () => {
@@ -21,6 +21,9 @@ const App = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [videoQueue, setVideoQueue] = useState([]);
+  const [maxDelay, setMaxDelay] = useState(2);
+  const [isAdminTaken, setIsAdminTaken] = useState(true);
+  const [twitchUserData, setTwitchUserData] = useState(null);
 
   useEffect(() => {
     fetch(`https://noembed.com/embed?url=${currentVideoLink}`)
@@ -33,10 +36,21 @@ const App = () => {
       });
   }, [currentVideoLink]);
 
+  useEffect(() => {
+    fetch("/getProfile", { credentials: "include" })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.profile) {
+          setTwitchUserData(res.profile);
+        }
+      });
+  }, []);
+
   return (
     <>
       <DataContext.Provider
         value={{
+          twitchUserData,
           admin,
           setAdmin,
           socket,
@@ -53,6 +67,10 @@ const App = () => {
           setErrorMessage,
           videoQueue,
           setVideoQueue,
+          maxDelay,
+          setMaxDelay,
+          isAdminTaken,
+          setIsAdminTaken,
         }}
       >
         <div className="app">
@@ -61,13 +79,13 @@ const App = () => {
             <Route path="/" exact>
               <PlayerAndChat />
               <div className="bottomDiv">
-                {admin ? <AdminPanel /> : <Queue />}
+                <AdminPanel />
               </div>
             </Route>
             <Route path="/:twitchStreamer" exact>
               <PlayerAndChat />
               <div className="bottomDiv">
-                {admin ? <AdminPanel /> : <Queue />}
+                <AdminPanel />
               </div>
             </Route>
           </Switch>
