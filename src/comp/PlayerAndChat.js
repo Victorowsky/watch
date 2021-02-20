@@ -8,6 +8,7 @@ import { useParams, useLocation } from "react-router-dom";
 const PlayerAndChat = () => {
   let location = useLocation();
   let { twitchStreamer } = useParams();
+  twitchStreamer.toLowerCase();
   // DEFAULT VALUE IS MY CHANNEL
   if (twitchStreamer === undefined) {
     twitchStreamer = "victorowsky_";
@@ -32,7 +33,6 @@ const PlayerAndChat = () => {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const player = useRef();
-  // const maxDelay = 2;
   const maxDelayLive = 6;
   // const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
   const websiteURL = "boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
@@ -51,7 +51,6 @@ const PlayerAndChat = () => {
       }, 3000);
     }
     return () => {
-      // socket.emit("adminLeave", { currentRoom });
       clearInterval(interval);
     };
   }, [admin, socket, currentRoom, videoQueue]);
@@ -64,7 +63,7 @@ const PlayerAndChat = () => {
         currentRoom,
       });
     }
-    // HERE CANT BE CURRENTROOM, CUZ I WILL SEND ANOTHER ADMIN DATA
+    // HERE CANT BE CURRENTROOM, CUZ IT WILL SEND ANOTHER ADMIN DATA
     // eslint-disable-next-line
   }, [currentVideoLink, socket]);
 

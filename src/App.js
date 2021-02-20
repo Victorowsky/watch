@@ -6,7 +6,6 @@ import AdminPanel from "./comp/AdminPanel/AdminPanel";
 import PlayerAndChat from "./comp/PlayerAndChat";
 import Success from "./comp/Snackbars/Success";
 import Error from "./comp/Snackbars/Error";
-// import Queue from "./comp/AdminPanel/Queue";
 export const DataContext = React.createContext();
 
 const socket = io(`/`);

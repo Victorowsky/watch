@@ -12,6 +12,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 
 const AdminPanel = () => {
   const websiteURL = `https://boiling-bastion-80662.herokuapp.com`;
+  // const websiteURL = `http://localhost:3000`;
 
   const {
     twitchUserData,
@@ -198,27 +199,18 @@ const AdminPanel = () => {
             {twitchUserData ? (
               <div className="accountInfo">
                 <a
-                  href={`${websiteURL}/#/${twitchUserData.login}`}
+                  href={`${websiteURL}/#/${twitchUserData.login.toLowerCase()}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <div className="img">
-                    <img
-                      src={twitchUserData.image}
-                      alt="twitchImage"
-                      srcset=""
-                    />
+                    <img src={twitchUserData.image} alt="Profile" />
                   </div>
                   {twitchUserData.login}
                 </a>
               </div>
             ) : (
               <>
-                {/* <Button
-                  text={"GET ADMIN"}
-                  onClick={handleAdminRequest}
-                  style={{ borderColor: "white", color: "white" }}
-                /> */}
                 <Button
                   text={"LOGIN WITH TWITCH"}
                   onClick={handleTwitchLogin}
