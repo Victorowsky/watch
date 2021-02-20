@@ -119,11 +119,13 @@ const AdminPanel = () => {
   };
 
   const handleTwitchLogin = () => {
-    window.location.href = "http://localhost:3001/auth/twitch";
+    window.location.href =
+      "https://boiling-bastion-80662.herokuapp.com/auth/twitch";
   };
 
   const handleLogout = () => {
-    window.location.href = "http://localhost:3001/twitch/logout";
+    window.location.href =
+      "https://boiling-bastion-80662.herokuapp.com/twitch/logout";
   };
 
   return (
@@ -193,7 +195,14 @@ const AdminPanel = () => {
               </div>
             </div>
 
-            {!twitchUserData && (
+            {twitchUserData ? (
+              <div className="accountInfo">
+                <div className="img">
+                  <img src={twitchUserData.image} alt="twitchImage" srcset="" />
+                </div>
+                {twitchUserData.login}
+              </div>
+            ) : (
               <>
                 {/* <Button
                   text={"GET ADMIN"}
