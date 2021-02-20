@@ -8,7 +8,7 @@ import { useParams, useLocation } from "react-router-dom";
 const PlayerAndChat = () => {
   let location = useLocation();
   let { twitchStreamer } = useParams();
-  twitchStreamer.toLowerCase();
+  twitchStreamer = twitchStreamer.toLowerCase();
   // DEFAULT VALUE IS MY CHANNEL
   if (twitchStreamer === undefined) {
     twitchStreamer = "victorowsky_";
