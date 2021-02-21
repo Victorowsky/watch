@@ -12,6 +12,9 @@ const PlayerAndChat = () => {
   if (twitchStreamer === undefined) {
     twitchStreamer = "victorowsky_";
   }
+
+  twitchStreamer = twitchStreamer.toLowerCase();
+
   const [onlineUsers, setOnlineUsers] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(twitchStreamer);
   const {
