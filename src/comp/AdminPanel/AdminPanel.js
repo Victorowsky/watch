@@ -12,7 +12,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 
 const AdminPanel = () => {
   const websiteURL = `https://boiling-bastion-80662.herokuapp.com`;
-  // const websiteURL = `http://localhost:3000`;
+  // const websiteURL = `http://localhost:3001`;
 
   const {
     twitchUserData,

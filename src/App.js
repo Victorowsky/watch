@@ -8,9 +8,9 @@ import Success from "./comp/Snackbars/Success";
 import Error from "./comp/Snackbars/Error";
 export const DataContext = React.createContext();
 
-// const socket = io(`/`);
-const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
-const socket = io(serverURL);
+const socket = io(`/`);
+// const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
+// const socket = io(serverURL);
 const App = () => {
   const history = useHistory();
   const [admin, setAdmin] = useState(false);
