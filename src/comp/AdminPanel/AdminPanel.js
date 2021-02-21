@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import QueueButton from "./QueueButton";
-import Button from "../Button";
+import Button2 from "../Button";
 import { DataContext } from "../../App";
 import "./AdminPanel.css";
 import Queue from "./Queue";
@@ -163,7 +163,7 @@ const AdminPanel = () => {
                   onClick={handleAddVideoToQueue}
                 />
                 <QueueButton text={"SKIP"} onClick={handleAdminCheckQueue} />
-                <Button text={"LOGOUT"} onClick={handleLogout} />
+                <Button2 text={"LOGOUT"} onClick={handleLogout} />
               </div>
             </form>
             {twitchUserData && (
@@ -212,7 +212,7 @@ const AdminPanel = () => {
               </div>
             ) : (
               <>
-                <Button
+                <Button2
                   text={"LOGIN WITH TWITCH"}
                   onClick={handleTwitchLogin}
                 />

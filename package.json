@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "proxy": "http://localhost:3001",
   "private": true,
-  "homepage": "https://boiling-bastion-80662.herokuapp.com",
+  "homepage": "https://victorowsky.github.io/watch",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",

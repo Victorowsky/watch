@@ -33,8 +33,8 @@ const PlayerAndChat = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const player = useRef();
   const maxDelayLive = 6;
-  // const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
-  const websiteURL = "boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
+  const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT
+  // const websiteURL = "boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
   // const websiteURL = "localhost"; // FOR TWITCH C  HAT
 
   // ADMIN EMITS HIS DATA TO SHARE WITH OTHERS
