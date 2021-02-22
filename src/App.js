@@ -6,6 +6,7 @@ import AdminPanel from "./comp/AdminPanel/AdminPanel";
 import PlayerAndChat from "./comp/PlayerAndChat";
 import Success from "./comp/Snackbars/Success";
 import Error from "./comp/Snackbars/Error";
+import Home from "./comp/MainPage/Home.js";
 export const DataContext = React.createContext();
 
 const socket = io(`/`);
@@ -23,8 +24,11 @@ const App = () => {
   const [maxDelay, setMaxDelay] = useState(2);
   const [isAdminTaken, setIsAdminTaken] = useState(true);
   const [twitchUserData, setTwitchUserData] = useState(null);
+
   const websiteURL = "https://boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
-  // const websiteURL = "localhost"; // FOR TWITCH C  HAT
+  // const websiteURL = "http://localhost:3000"; //
+
+  // APP, ADMINPANEL, PLAYERANDCHAT, PACKAGE.JSON
 
   useEffect(() => {
     fetch(`https://noembed.com/embed?url=${currentVideoLink}`)
@@ -79,10 +83,11 @@ const App = () => {
           <Switch>
             {/* DEFAULT TWITCH CHAT FOR MY CHANNEL (VICTOROWSKY_) */}
             <Route path="/" exact>
-              <PlayerAndChat />
+              {/* <PlayerAndChat />
               <div className="bottomDiv">
                 <AdminPanel />
-              </div>
+              </div> */}
+              <Home />
             </Route>
             <Route path="/:twitchStreamer" exact>
               <PlayerAndChat />
