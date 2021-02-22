@@ -23,6 +23,8 @@ const App = () => {
   const [maxDelay, setMaxDelay] = useState(2);
   const [isAdminTaken, setIsAdminTaken] = useState(true);
   const [twitchUserData, setTwitchUserData] = useState(null);
+  const websiteURL = "https://boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
+  // const websiteURL = "localhost"; // FOR TWITCH C  HAT
 
   useEffect(() => {
     fetch(`https://noembed.com/embed?url=${currentVideoLink}`)
@@ -49,6 +51,7 @@ const App = () => {
     <>
       <DataContext.Provider
         value={{
+          websiteURL,
           twitchUserData,
           admin,
           setAdmin,

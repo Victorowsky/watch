@@ -11,11 +11,12 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
 const AdminPanel = () => {
-  const websiteURL = `https://boiling-bastion-80662.herokuapp.com`;
+  // const websiteURL = `https://boiling-bastion-80662.herokuapp.com`;
   // const websiteURL = `http://localhost:3001`;
 
   const {
     twitchUserData,
+    websiteURL,
     admin,
     setAdmin,
     setCurrentVideoLink,
@@ -212,10 +213,12 @@ const AdminPanel = () => {
               </div>
             ) : (
               <>
-                <Button2
-                  text={"LOGIN WITH TWITCH"}
-                  onClick={handleTwitchLogin}
-                />
+                <div className="twitchLoginButton">
+                  <Button2
+                    text={"LOGIN WITH TWITCH"}
+                    onClick={handleTwitchLogin}
+                  />
+                </div>
               </>
             )}
           </div>
