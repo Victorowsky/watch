@@ -12,9 +12,6 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import { useRef } from "react";
 
 const AdminPanel = () => {
-  // const websiteURL = `https://boiling-bastion-80662.herokuapp.com`;
-  // const websiteURL = `http://localhost:3001`;
-
   const {
     twitchUserData,
     websiteURL,
@@ -27,7 +24,6 @@ const AdminPanel = () => {
     setMaxDelay,
     maxDelay,
     chatRef,
-    // isAdminTaken,
   } = useContext(DataContext);
   const [editVideoLink, setEditVideoLink] = useState();
 
@@ -120,7 +116,7 @@ const AdminPanel = () => {
   };
 
   const handleTwitchLogin = () => {
-    window.location.href = `${websiteURL}/auth/twitch`;
+    window.location.href = `${websiteURL}/auth/twitch`; //DECLARED IN APP
   };
 
   const handleLogout = () => {

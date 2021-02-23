@@ -23,7 +23,6 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [videoQueue, setVideoQueue] = useState([]);
   const [maxDelay, setMaxDelay] = useState(2);
-  const [isAdminTaken, setIsAdminTaken] = useState(true);
   const [twitchUserData, setTwitchUserData] = useState(null);
 
   const websiteURL = "https://boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
@@ -79,8 +78,6 @@ const App = () => {
           setVideoQueue,
           maxDelay,
           setMaxDelay,
-          isAdminTaken,
-          setIsAdminTaken,
         }}
       >
         <div className="app">
