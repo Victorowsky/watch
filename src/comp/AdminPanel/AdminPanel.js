@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
+import { useRef } from "react";
 
 const AdminPanel = () => {
   // const websiteURL = `https://boiling-bastion-80662.herokuapp.com`;
@@ -25,6 +26,7 @@ const AdminPanel = () => {
     videoQueue,
     setMaxDelay,
     maxDelay,
+    chatRef,
     // isAdminTaken,
   } = useContext(DataContext);
   const [editVideoLink, setEditVideoLink] = useState();
@@ -37,13 +39,27 @@ const AdminPanel = () => {
   twitchStreamer = twitchStreamer?.toLowerCase();
   // DEFAULT VALUE IS MY CHANNEL
 
+  ///  HANDLE SET WIDTH ON DELAY INFO SAME AS CHAT
+  const delayInfoRef = useRef(null);
+
+  useEffect(() => {
+    const handleDelayInfoSetWidth = () => {
+      delayInfoRef.current.style.width = chatRef?.current?.offsetWidth + "px";
+    };
+    delayInfoRef.current.style.width = chatRef?.current?.offsetWidth + "px";
+    window.addEventListener("resize", handleDelayInfoSetWidth);
+
+    return () => {
+      window.removeEventListener("resize", handleDelayInfoSetWidth);
+    };
+  }, [chatRef]);
+
   useEffect(() => {
     if (twitchUserData) {
       if (twitchUserData.login.toLowerCase() === twitchStreamer.toLowerCase()) {
         if (!admin) {
           setAdmin(true);
         }
-        // socket.emit("adminFromTwitchJoined", { currentRoom: twitchStreamer });
       }
       return () => {
         if (admin) {
@@ -80,16 +96,6 @@ const AdminPanel = () => {
     }
   };
 
-  // const handleAdminRequest = () => {
-  //   socket.emit("adminRequest", { currentRoom: twitchStreamer });
-  // };
-
-  // useEffect(() => {
-  //   if (admin) {
-  //     handleAdminRequest();
-  //   }
-  // }, [admin]);
-
   const handleChangeMaxDelay = (type) => {
     if (type === "increment") {
       setMaxDelay((prev) => prev + 1);
@@ -103,16 +109,6 @@ const AdminPanel = () => {
       });
     }
   };
-
-  // const handleLeaveAdmin = () => {
-  //   const confirmAnswer = window.confirm(
-  //     "Are you sure you don't want to be an admin?"
-  //   );
-  //   if (confirmAnswer) {
-  //     setAdmin(false);
-  //     socket.emit("adminLeave");
-  //   }
-  // };
 
   const handleAdminCheckQueue = () => {
     if (admin) {
@@ -181,7 +177,7 @@ const AdminPanel = () => {
       ) : (
         <div className="delayInfoContainer">
           <Queue />
-          <div className="delay">
+          <div className="delay" ref={delayInfoRef}>
             <span className="delayInfo">Max Delay: {maxDelay} seconds</span>
             <div className="delayManage">
               <div

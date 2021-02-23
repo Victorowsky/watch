@@ -31,6 +31,7 @@ const PlayerAndChat = () => {
     setVideoQueue,
     maxDelay,
     setIsAdminTaken,
+    chatRef,
   } = useContext(DataContext);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -234,7 +235,7 @@ const PlayerAndChat = () => {
             volume={0.1}
           />
         </div>
-        <div className="twitchChat">
+        <div className="twitchChat" ref={chatRef}>
           <span className="onlineUsers">
             {onlineUsers !== null ? `${onlineUsers} ONLINE` : "CONNECTING"}
           </span>

@@ -7,6 +7,7 @@ import PlayerAndChat from "./comp/PlayerAndChat";
 import Success from "./comp/Snackbars/Success";
 import Error from "./comp/Snackbars/Error";
 import Home from "./comp/MainPage/Home.js";
+import { useRef } from "react";
 export const DataContext = React.createContext();
 
 const socket = io(`/`);
@@ -26,7 +27,7 @@ const App = () => {
   const [twitchUserData, setTwitchUserData] = useState(null);
 
   const websiteURL = "https://boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
-  // const websiteURL = "http://localhost:3000"; //
+  // const websiteURL = "http://localhost:3001"; //
 
   // APP, ADMINPANEL, PLAYERANDCHAT, PACKAGE.JSON
 
@@ -51,10 +52,13 @@ const App = () => {
       });
   }, []);
 
+  const chatRef = useRef(null);
+
   return (
     <>
       <DataContext.Provider
         value={{
+          chatRef,
           websiteURL,
           twitchUserData,
           admin,
