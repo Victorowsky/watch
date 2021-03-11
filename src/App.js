@@ -10,99 +10,99 @@ import Home from "./comp/MainPage/Home.js";
 import { useRef } from "react";
 export const DataContext = React.createContext();
 
-const socket = io(`/`);
-// const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
-// const socket = io(serverURL);
+// const socket = io(`/`);
+const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
+const socket = io(serverURL);
 const App = () => {
-  const history = useHistory();
-  const [admin, setAdmin] = useState(false);
-  const [currentVideoLink, setCurrentVideoLink] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [videoQueue, setVideoQueue] = useState([]);
-  const [maxDelay, setMaxDelay] = useState(2);
-  const [twitchUserData, setTwitchUserData] = useState(null);
+	const history = useHistory();
+	const [admin, setAdmin] = useState(false);
+	const [currentVideoLink, setCurrentVideoLink] = useState("");
+	const [isSuccess, setIsSuccess] = useState(false);
+	const [isError, setIsError] = useState(false);
+	const [successMessage, setSuccessMessage] = useState("");
+	const [errorMessage, setErrorMessage] = useState("");
+	const [videoQueue, setVideoQueue] = useState([]);
+	const [maxDelay, setMaxDelay] = useState(2);
+	const [twitchUserData, setTwitchUserData] = useState(null);
 
-  const websiteURL = "https://boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
-  // const websiteURL = "http://localhost:3001"; //
+	const websiteURL = "https://boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
+	// const websiteURL = "http://localhost:3001"; //
 
-  // APP, ADMINPANEL, PLAYERANDCHAT, PACKAGE.JSON
+	// APP, ADMINPANEL, PLAYERANDCHAT, PACKAGE.JSON
 
-  useEffect(() => {
-    fetch(`https://noembed.com/embed?url=${currentVideoLink}`)
-      .then((res) => res.json())
-      .then((res) => {
-        document.title = res.title;
-        if (res.title === undefined) {
-          document.title = "Watch Together";
-        }
-      });
-  }, [currentVideoLink]);
+	useEffect(() => {
+		fetch(`https://noembed.com/embed?url=${currentVideoLink}`)
+			.then((res) => res.json())
+			.then((res) => {
+				document.title = res.title;
+				if (res.title === undefined) {
+					document.title = "Watch Together";
+				}
+			});
+	}, [currentVideoLink]);
 
-  useEffect(() => {
-    fetch("/getProfile", { credentials: "include" })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.profile) {
-          setTwitchUserData(res.profile);
-        }
-      });
-  }, []);
+	useEffect(() => {
+		fetch("/getProfile", { credentials: "include" })
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.profile) {
+					setTwitchUserData(res.profile);
+				}
+			});
+	}, []);
 
-  const chatRef = useRef(null);
+	const chatRef = useRef(null);
 
-  return (
-    <>
-      <DataContext.Provider
-        value={{
-          chatRef,
-          websiteURL,
-          twitchUserData,
-          admin,
-          setAdmin,
-          socket,
-          currentVideoLink,
-          setCurrentVideoLink,
-          history,
-          isSuccess,
-          setIsSuccess,
-          isError,
-          setIsError,
-          successMessage,
-          setSuccessMessage,
-          errorMessage,
-          setErrorMessage,
-          videoQueue,
-          setVideoQueue,
-          maxDelay,
-          setMaxDelay,
-        }}
-      >
-        <div className="app">
-          <Switch>
-            {/* DEFAULT TWITCH CHAT FOR MY CHANNEL (VICTOROWSKY_) */}
-            <Route path="/" exact>
-              {/* <PlayerAndChat />
+	return (
+		<>
+			<DataContext.Provider
+				value={{
+					chatRef,
+					websiteURL,
+					twitchUserData,
+					admin,
+					setAdmin,
+					socket,
+					currentVideoLink,
+					setCurrentVideoLink,
+					history,
+					isSuccess,
+					setIsSuccess,
+					isError,
+					setIsError,
+					successMessage,
+					setSuccessMessage,
+					errorMessage,
+					setErrorMessage,
+					videoQueue,
+					setVideoQueue,
+					maxDelay,
+					setMaxDelay,
+				}}
+			>
+				<div className="app">
+					<Switch>
+						{/* DEFAULT TWITCH CHAT FOR MY CHANNEL (VICTOROWSKY_) */}
+						<Route path="/" exact>
+							{/* <PlayerAndChat />
               <div className="bottomDiv">
                 <AdminPanel />
               </div> */}
-              <Home />
-            </Route>
-            <Route path="/:twitchStreamer" exact>
-              <PlayerAndChat />
-              <div className="bottomDiv">
-                <AdminPanel />
-              </div>
-            </Route>
-          </Switch>
-          <Success />
-          <Error />
-        </div>
-      </DataContext.Provider>
-    </>
-  );
+							<Home />
+						</Route>
+						<Route path="/:twitchStreamer" exact>
+							<PlayerAndChat />
+							<div className="bottomDiv">
+								<AdminPanel />
+							</div>
+						</Route>
+					</Switch>
+					<Success />
+					<Error />
+				</div>
+			</DataContext.Provider>
+		</>
+	);
 };
 
 export default App;
