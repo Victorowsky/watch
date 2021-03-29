@@ -1,6 +1,6 @@
 .adminPanel {
 	color: white;
-	display: column;
+	margin-bottom: 5px;
 	align-items: center;
 }
 .accountInfo {
