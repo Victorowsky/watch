@@ -40,9 +40,10 @@ const AdminPanel = () => {
 
 	useEffect(() => {
 		const handleDelayInfoSetWidth = () => {
-			delayInfoRef.current.style.width = chatRef?.current?.offsetWidth + "px";
+			if (delayInfoRef.current.style) {
+				delayInfoRef.current.style.width = chatRef?.current?.offsetWidth + "px";
+			}
 		};
-		delayInfoRef.current.style.width = chatRef?.current?.offsetWidth + "px";
 		window.addEventListener("resize", handleDelayInfoSetWidth);
 		handleDelayInfoSetWidth();
 		return () => {
