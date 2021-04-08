@@ -1,61 +1,55 @@
 .playerAndChat {
-  display: flex;
-  height: 100%;
-  background-color: #121212;
+	display: flex;
+	height: 100%;
+	background-color: #121212;
 }
 .videoAndChat {
-  height: 100vh;
+	height: 100vh;
 }
 .player-wrapper {
-  height: 100%;
-  width: 100%;
-  min-height: 225px;
+	height: 100%;
+	width: 100%;
+	min-height: 225px;
 }
 
 .react-player {
-  position: relative;
-  top: 0;
-  left: 0;
+	position: relative;
+	top: 0;
+	left: 0;
 }
 .onlineUsers {
-  color: grey;
-  position: absolute;
-  padding: 6px 10px;
-  margin: 10px 10px;
-  border-radius: 10px;
-  background-color: #121212;
+	pointer-events: none;
+	color: grey;
+	position: absolute;
+	padding: 6px 10px;
+	margin: 10px 10px;
+	border-radius: 10px;
+	background-color: #121212;
 }
 .delayInfo {
-  color: white;
-  text-transform: uppercase;
+	color: white;
+	text-transform: uppercase;
 }
 .delayManage {
-  color: white;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 5px 0;
-  align-items: center;
+	color: white;
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	padding: 5px 0;
+	align-items: center;
 }
-.delayManageOptionDecrement {
-  padding: 5px;
-  border: 2px solid white;
-  border-radius: 5px;
-  width: 50px;
-  cursor: pointer;
-  transition: 0.3s;
-}
+.delayManageOptionDecrement,
 .delayManageOptionIncrement {
-  padding: 5px;
-  border: 2px solid white;
-  border-radius: 5px;
-  width: 50px;
-  cursor: pointer;
-  transition: 0.3s;
+	padding: 5px;
+	border: 2px solid white;
+	border-radius: 5px;
+	width: 50px;
+	cursor: pointer;
+	transition: 0.3s;
 }
 .delayManageOptionDecrement:hover {
-  background-color: #f94144;
+	background-color: #f94144;
 }
 .delayManageOptionIncrement:hover {
-  background-color: #90be6d;
+	background-color: #90be6d;
 }

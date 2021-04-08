@@ -44,7 +44,7 @@ const AdminPanel = () => {
 		};
 		delayInfoRef.current.style.width = chatRef?.current?.offsetWidth + "px";
 		window.addEventListener("resize", handleDelayInfoSetWidth);
-
+		handleDelayInfoSetWidth();
 		return () => {
 			window.removeEventListener("resize", handleDelayInfoSetWidth);
 		};
