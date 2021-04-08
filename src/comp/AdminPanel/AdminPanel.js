@@ -48,7 +48,7 @@ const AdminPanel = () => {
 		return () => {
 			window.removeEventListener("resize", handleDelayInfoSetWidth);
 		};
-	}, [chatRef]);
+	}, [chatRef, twitchStreamer]);
 
 	useEffect(() => {
 		if (twitchUserData) {
