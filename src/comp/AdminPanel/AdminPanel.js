@@ -40,16 +40,16 @@ const AdminPanel = () => {
 
 	useEffect(() => {
 		const handleDelayInfoSetWidth = () => {
-			if (delayInfoRef.current.style) {
-				delayInfoRef.current.style.width = chatRef?.current?.offsetWidth + "px";
-			}
+			delayInfoRef.current.style.width = chatRef?.current?.offsetWidth + "px";
 		};
 		window.addEventListener("resize", handleDelayInfoSetWidth);
-		handleDelayInfoSetWidth();
+		if (delayInfoRef.current) {
+			handleDelayInfoSetWidth();
+		}
 		return () => {
 			window.removeEventListener("resize", handleDelayInfoSetWidth);
 		};
-	}, [chatRef, twitchStreamer]);
+	}, [chatRef, delayInfoRef.current, twitchStreamer]);
 
 	useEffect(() => {
 		if (twitchUserData) {
@@ -164,7 +164,7 @@ const AdminPanel = () => {
 						{twitchUserData && (
 							<div className="accountInfo">
 								<div className="img">
-									<img src={twitchUserData.image} alt="twitchImage" srcset="" />
+									<img src={twitchUserData.image} alt="twitchImage" srcSet="" />
 								</div>
 								{twitchUserData.login}
 							</div>
