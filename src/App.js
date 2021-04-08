@@ -23,15 +23,7 @@ const App = () => {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [videoQueue, setVideoQueue] = useState([]);
 	const [maxDelay, setMaxDelay] = useState(2);
-	// const [twitchUserData, setTwitchUserData] = useState(null);
-	const [twitchUserData, setTwitchUserData] = useState({
-		_id: "6030e3d88702771c4c2c05c9",
-		twitchId: "90073298",
-		login: "Victorowsky_",
-		image:
-			"https://static-cdn.jtvnw.net/jtv_user_pictures/b671f9ac-b64c-4c93-b32d-6581396d5210-profile_image-300x300.png",
-		__v: 0,
-	});
+	const [twitchUserData, setTwitchUserData] = useState(null);
 
 	const websiteURL = "https://boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
 	// const websiteURL = "http://localhost:3001"; //
