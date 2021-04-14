@@ -42,6 +42,36 @@ const PlayerAndChat = () => {
 	const websiteURL = "boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
 	// const websiteURL = "localhost"; // FOR TWITCH C  HAT
 
+	const synchronizeVideo = (player, currentSeconds) => {
+		if (player.current) {
+			const videoDuration = player.current.getDuration();
+			const currentTime = player.current.getCurrentTime();
+			// FOR LIVESTREAMS
+			if (videoDuration > currentSeconds) {
+				// STANDARD VIDEO
+				if (
+					!(
+						currentTime - maxDelay < currentSeconds &&
+						currentTime + maxDelay > currentSeconds
+					)
+				) {
+					// MAX 2 SENONDS DIFFERENCE
+					player.current.seekTo(currentSeconds, "seconds");
+				}
+			} else {
+				// HERE IS LIVESTREAM VERSION
+				if (
+					!(
+						currentTime < videoDuration + maxDelayLive &&
+						currentTime > videoDuration - maxDelayLive
+					)
+				) {
+					player.current.seekTo(videoDuration, "seconds");
+				}
+			}
+		}
+	};
+
 	// ADMIN EMITS HIS DATA TO SHARE WITH OTHERS
 	useEffect(() => {
 		let interval;
@@ -115,11 +145,6 @@ const PlayerAndChat = () => {
 			socket.on("joinRoomAnswer", ({ docs }) => {
 				setCurrentVideoLink(docs.currentVideoLink);
 				setOnlineUsers(docs.onlineUsers);
-				// if (docs.admin) {
-				//   setIsAdminTaken(true);
-				// } else {
-				//   setIsAdminTaken(false);
-				// }
 			});
 
 			socket.on("adminAnswer", ({ isAdminTaken }) => {
@@ -129,33 +154,7 @@ const PlayerAndChat = () => {
 			// SYNC SECONDS WITH ADMIN
 			socket.on(`adminDataAnswer`, ({ currentSeconds, videoQueue }) => {
 				setVideoQueue(videoQueue);
-				if (player.current) {
-					const videoDuration = player.current.getDuration();
-					const currentTime = player.current.getCurrentTime();
-					// FOR LIVESTREAMS
-					if (videoDuration > currentSeconds) {
-						// STANDARD VIDEO
-						if (
-							!(
-								currentTime - maxDelay < currentSeconds &&
-								currentTime + maxDelay > currentSeconds
-							)
-						) {
-							// MAX 2 SENONDS DIFFERENCE
-							player.current.seekTo(currentSeconds, "seconds");
-						}
-					} else {
-						// HERE IS LIVESTREAM VERSION
-						if (
-							!(
-								currentTime < videoDuration + maxDelayLive &&
-								currentTime > videoDuration - maxDelayLive
-							)
-						) {
-							player.current.seekTo(videoDuration, "seconds");
-						}
-					}
-				}
+				synchronizeVideo(player, currentSeconds);
 			});
 
 			socket.on("adminRequestAnswer", ({ success, message }) => {

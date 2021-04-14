@@ -49,6 +49,8 @@ const AdminPanel = () => {
 		return () => {
 			window.removeEventListener("resize", handleDelayInfoSetWidth);
 		};
+		// MADE FOR .current
+		// eslint-disable-next-line
 	}, [chatRef, delayInfoRef.current, twitchStreamer]);
 
 	useEffect(() => {
