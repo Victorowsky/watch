@@ -23,14 +23,9 @@ const PlayerAndChat = () => {
 		currentVideoLink,
 		socket,
 		setAdmin,
-		setIsSuccess,
-		setIsError,
-		setErrorMessage,
-		setSuccessMessage,
 		videoQueue,
 		setVideoQueue,
 		maxDelay,
-		setIsAdminTaken,
 		chatRef,
 	} = useContext(DataContext);
 
@@ -106,7 +101,7 @@ const PlayerAndChat = () => {
 		window.addEventListener("beforeunload", (ev) => {
 			ev.preventDefault();
 			socket.emit("leaveRoom", { currentRoom });
-			socket.emit("adminLeave");
+			// socket.emit("adminLeave");
 		});
 		setCurrentRoom(twitchStreamer);
 		// eslint-disable-next-line
@@ -118,7 +113,7 @@ const PlayerAndChat = () => {
 		return () => {
 			socket.emit("leaveRoom", { currentRoom });
 			setAdmin(false);
-			socket.emit("adminLeave");
+			// socket.emit("adminLeave");
 		};
 		// eslint-disable-next-line
 	}, [currentRoom]);
@@ -147,9 +142,9 @@ const PlayerAndChat = () => {
 				setOnlineUsers(docs.onlineUsers);
 			});
 
-			socket.on("adminAnswer", ({ isAdminTaken }) => {
-				setIsAdminTaken(isAdminTaken);
-			});
+			// socket.on("adminAnswer", ({ isAdminTaken }) => {
+			// 	setIsAdminTaken(isAdminTaken);
+			// });
 
 			// SYNC SECONDS WITH ADMIN
 			socket.on(`adminDataAnswer`, ({ currentSeconds, videoQueue }) => {
@@ -157,16 +152,16 @@ const PlayerAndChat = () => {
 				synchronizeVideo(player, currentSeconds);
 			});
 
-			socket.on("adminRequestAnswer", ({ success, message }) => {
-				if (success) {
-					setIsSuccess(true);
-					setSuccessMessage(message);
-					setAdmin(true);
-				} else {
-					setIsError(true);
-					setErrorMessage(message);
-				}
-			});
+			// socket.on("adminRequestAnswer", ({ success, message }) => {
+			// 	if (success) {
+			// 		setIsSuccess(true);
+			// 		setSuccessMessage(message);
+			// 		setAdmin(true);
+			// 	} else {
+			// 		setIsError(true);
+			// 		setErrorMessage(message);
+			// 	}
+			// });
 
 			socket.on("adminQueueUpdateAnswer", ({ videoQueue }) => {
 				setVideoQueue(videoQueue);

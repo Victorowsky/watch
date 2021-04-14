@@ -17,10 +17,10 @@ const App = () => {
 	const history = useHistory();
 	const [admin, setAdmin] = useState(false);
 	const [currentVideoLink, setCurrentVideoLink] = useState("");
-	const [isSuccess, setIsSuccess] = useState(false);
-	const [isError, setIsError] = useState(false);
-	const [successMessage, setSuccessMessage] = useState("");
-	const [errorMessage, setErrorMessage] = useState("");
+	// const [isSuccess, setIsSuccess] = useState(false);
+	// const [isError, setIsError] = useState(false);
+	// const [successMessage, setSuccessMessage] = useState("");
+	// const [errorMessage, setErrorMessage] = useState("");
 	const [videoQueue, setVideoQueue] = useState([]);
 	const [maxDelay, setMaxDelay] = useState(2);
 	const [twitchUserData, setTwitchUserData] = useState(null);
@@ -74,14 +74,6 @@ const App = () => {
 					currentVideoLink,
 					setCurrentVideoLink,
 					history,
-					isSuccess,
-					setIsSuccess,
-					isError,
-					setIsError,
-					successMessage,
-					setSuccessMessage,
-					errorMessage,
-					setErrorMessage,
 					videoQueue,
 					setVideoQueue,
 					maxDelay,
@@ -90,12 +82,7 @@ const App = () => {
 			>
 				<div className="app">
 					<Switch>
-						{/* DEFAULT TWITCH CHAT FOR MY CHANNEL (VICTOROWSKY_) */}
 						<Route path="/" exact>
-							{/* <PlayerAndChat />
-              <div className="bottomDiv">
-                <AdminPanel />
-              </div> */}
 							<Home />
 						</Route>
 						<Route path="/:twitchStreamer" exact>
