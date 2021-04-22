@@ -33,8 +33,8 @@ const PlayerAndChat = () => {
 	const player = useRef();
 	const maxDelayLive = 6;
 	// CHAT LINK
-	// const websiteURL = "victorowsky.github.io"; // FOR TWITCH CHAT GITHUB
-	const websiteURL = "boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
+	// const websiteURL = "boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
+	const websiteURL = window.location.host; // HEROKU HOSTING
 	// const websiteURL = "localhost"; // FOR TWITCH C  HAT
 
 	const synchronizeVideo = (player, currentSeconds) => {
