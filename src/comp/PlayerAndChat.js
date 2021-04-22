@@ -137,7 +137,6 @@ const PlayerAndChat = () => {
 
 			socket.on("joinRoomAnswer", ({ docs }) => {
 				setCurrentVideoLink(docs.currentVideoLink);
-				setOnlineUsers(docs.onlineUsers);
 			});
 
 			// SYNC SECONDS WITH ADMIN
