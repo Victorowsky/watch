@@ -5,7 +5,7 @@ import { DataContext } from "../../App";
 import { useContext } from "react";
 
 const Home = () => {
-	const { twitchUserData } = useContext(DataContext);
+	const { twitchUserData, websiteURL } = useContext(DataContext);
 
 	const history = useHistory();
 
@@ -16,8 +16,6 @@ const Home = () => {
 			history.push(`/${twitchStreamer}`);
 		}
 	};
-
-	const websiteURL = `https://boiling-bastion-80662.herokuapp.com`;
 
 	const handleTwitchLogin = () => {
 		window.location.href = `${websiteURL}/auth/twitch`;
