@@ -128,6 +128,7 @@ const PlayerAndChat = () => {
 
 		socket.on("joinRoomAnswer", ({ docs }) => {
 			setCurrentVideoLink(docs.currentVideoLink);
+			setVideoQueue(docs.queue);
 		});
 
 		if (!admin) {
