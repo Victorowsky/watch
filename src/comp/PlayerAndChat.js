@@ -205,7 +205,7 @@ const PlayerAndChat = () => {
 				</div>
 				<div className="twitchChat" ref={chatRef}>
 					<span className="onlineUsers">
-						{onlineUsers !== null ? `${onlineUsers} ONLINE` : "CONNECTING"}
+						{!onlineUsers ? `${onlineUsers} ONLINE` : "CONNECTING"}
 					</span>
 					<iframe
 						style={{ border: "2px solid #121212" }}
