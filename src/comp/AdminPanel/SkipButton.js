@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
 			color: "white",
 			transition: "0.3s",
 			"&:hover": {
-				borderColor: "#277da1",
-				color: "#277da1",
+				borderColor: "#f94144",
+				color: "#f94144",
 			},
 		},
 	},
