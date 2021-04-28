@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import QueueButton from "./QueueButton";
+import PlayButton from "./PlayButton";
+import SkipButton from "./SkipButton";
 import Button2 from "../Button";
 import { DataContext } from "../../App";
 import "./AdminPanel.css";
@@ -40,7 +42,9 @@ const AdminPanel = () => {
 
 	useEffect(() => {
 		const handleDelayInfoSetWidth = () => {
-			delayInfoRef.current.style.width = chatRef?.current?.offsetWidth + "px";
+			if (delayInfoRef.current) {
+				delayInfoRef.current.style.width = chatRef?.current?.offsetWidth + "px";
+			}
 		};
 		window.addEventListener("resize", handleDelayInfoSetWidth);
 		if (delayInfoRef.current) {
@@ -154,12 +158,12 @@ const AdminPanel = () => {
 								type="submit"
 							></button>
 							<div className="optionButtons">
-								<QueueButton text={"PLAY NOW"} onClick={handleAddVideo} />
+								<PlayButton text={"PLAY NOW"} onClick={handleAddVideo} />
 								<QueueButton
 									text={"ADD TO QUEUE"}
 									onClick={handleAddVideoToQueue}
 								/>
-								<QueueButton text={"SKIP"} onClick={handleAdminCheckQueue} />
+								<SkipButton text={"SKIP"} onClick={handleAdminCheckQueue} />
 								<Button2 text={"LOGOUT"} onClick={handleLogout} />
 							</div>
 						</form>
