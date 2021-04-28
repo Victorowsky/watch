@@ -15,6 +15,12 @@ const PlayerAndChat = () => {
 
 	twitchStreamer = twitchStreamer.toLowerCase();
 
+	let chatUsername = twitchStreamer;
+
+	if (chatUsername === "szkajpur") {
+		chatUsername = "demonzz1";
+	}
+
 	const [onlineUsers, setOnlineUsers] = useState(null);
 	const [currentRoom, setCurrentRoom] = useState(twitchStreamer);
 	const {
@@ -211,7 +217,7 @@ const PlayerAndChat = () => {
 						style={{ border: "2px solid #121212" }}
 						title="TwitchChat"
 						id="chat_embed"
-						src={`https://www.twitch.tv/embed/${twitchStreamer}/chat?darkpopout&parent=${websiteURL}`}
+						src={`https://www.twitch.tv/embed/${chatUsername}/chat?darkpopout&parent=${websiteURL}`}
 						height="100%"
 						width="100%"
 					></iframe>

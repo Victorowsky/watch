@@ -11,8 +11,7 @@ import { useRef } from "react";
 export const DataContext = React.createContext();
 
 const socket = io(`/`);
-// const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
-// const socket = io(serverURL);
+
 const App = () => {
 	const history = useHistory();
 	const [admin, setAdmin] = useState(false);

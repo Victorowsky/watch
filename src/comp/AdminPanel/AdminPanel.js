@@ -34,6 +34,7 @@ const AdminPanel = () => {
 	if (twitchStreamer === undefined) {
 		twitchStreamer = "victorowsky_";
 	}
+
 	twitchStreamer = twitchStreamer?.toLowerCase();
 	// DEFAULT VALUE IS MY CHANNEL
 
@@ -202,7 +203,7 @@ const AdminPanel = () => {
 						{twitchUserData ? (
 							<div className="accountInfo">
 								<a
-									href={`${websiteURL}/#/${twitchUserData.login.toLowerCase()}`}
+									href={`/#/${twitchUserData.login.toLowerCase()}`}
 									target="_blank"
 									rel="noopener noreferrer"
 								>
