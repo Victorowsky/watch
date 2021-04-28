@@ -10,9 +10,9 @@ import Home from "./comp/MainPage/Home.js";
 import { useRef } from "react";
 export const DataContext = React.createContext();
 
-// const socket = io(`/`);
-const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
-const socket = io(serverURL);
+const socket = io(`/`);
+// const serverURL = "https://boiling-bastion-80662.herokuapp.com/";
+// const socket = io(serverURL);
 const App = () => {
 	const history = useHistory();
 	const [admin, setAdmin] = useState(false);
@@ -21,10 +21,7 @@ const App = () => {
 	const [maxDelay, setMaxDelay] = useState(2);
 	const [twitchUserData, setTwitchUserData] = useState(null);
 
-	// const websiteURL = "https://boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
-
 	const websiteURL = window.location.origin;
-	// const websiteURL = "http://localhost:3001"; //
 
 	// APP, ADMINPANEL, PLAYERANDCHAT, PACKAGE.JSON
 

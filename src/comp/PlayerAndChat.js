@@ -33,9 +33,7 @@ const PlayerAndChat = () => {
 	const player = useRef();
 	const maxDelayLive = 6;
 	// CHAT LINK
-	// const websiteURL = "boiling-bastion-80662.herokuapp.com"; // HEROKU HOSTING
 	const websiteURL = window.location.host; // HEROKU HOSTING
-	// const websiteURL = "localhost"; // FOR TWITCH C  HAT
 
 	const synchronizeVideo = (player, currentSeconds) => {
 		if (player.current) {
@@ -131,12 +129,8 @@ const PlayerAndChat = () => {
 				// TURNED OFF FOR ADMIN TO NOT LOOP PAGE
 				setCurrentVideoLink(currentVideoLink);
 			});
-			socket.on("isPlayingSocketAnswer", ({ isPlaying, currentRoom }) => {
+			socket.on("isPlayingSocketAnswer", ({ isPlaying }) => {
 				setIsPlaying(isPlaying);
-			});
-
-			socket.on("joinRoomAnswer", ({ docs }) => {
-				setCurrentVideoLink(docs.currentVideoLink);
 			});
 
 			// SYNC SECONDS WITH ADMIN
@@ -148,17 +142,15 @@ const PlayerAndChat = () => {
 			socket.on("adminQueueUpdateAnswer", ({ videoQueue }) => {
 				setVideoQueue(videoQueue);
 			});
-
-			return () => {
-				socket.removeAllListeners(`adminDataAnswer`);
-				socket.removeAllListeners(`joinRoomAnswer`);
-				socket.removeAllListeners(`isPlayingSocketAnswer`);
-				socket.removeAllListeners(`videoChangeAnswer`);
-				socket.removeAllListeners("adminAnswer");
-				socket.removeAllListeners("adminRequestAnswer");
-				socket.removeAllListeners("adminQueueUpdateAnswer");
-			};
 		}
+		return () => {
+			socket.removeAllListeners(`adminDataAnswer`);
+			socket.removeAllListeners(`joinRoomAnswer`);
+			socket.removeAllListeners(`isPlayingSocketAnswer`);
+			socket.removeAllListeners(`videoChangeAnswer`);
+			socket.removeAllListeners("adminQueueUpdateAnswer");
+			socket.removeAllListeners("onlineUsersAnswer");
+		};
 		// eslint-disable-next-line
 	}, [currentRoom, admin, socket, maxDelay]);
 
